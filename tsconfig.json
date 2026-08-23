@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"checkJs": true,
+		"exactOptionalPropertyTypes": true,
+		"isolatedModules": true,
+		"lib": [ "dom", "dom.iterable", "esnext" ],
+		"module": "nodenext",
+		"moduleDetection": "force",
+		"noEmit": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
+		"noUncheckedSideEffectImports": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "esnext",
+		"types": [ "node" ]
+	},
+	"include": [ "build.mjs", "private.d.ts", "src", "test" ]
+}

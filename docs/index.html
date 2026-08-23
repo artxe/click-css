@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" class="color-scheme=dark ff=Inter,_ui-sans-serif,_-apple-system,_BlinkMacSystemFont,_'Segoe_UI',_sans-serif w=100% o=hidden --bg=#0b0c10 --panel=#101116 --panel-raised=#15161d --line=#242630 --line-strong=#343743 --text=#f1f1f4 --muted=#9295a2 --muted-strong=#b8bac3 --accent=#7c6cff --accent-soft=rgba(124,_108,_255,_0.14) --success=#59d499 --danger=#ff6b7a --editor-size=48% --editor-block-size=48%
 	_body/w=100%;o=hidden
-	_:is(button,a,select,textarea,[role='separator']):focus-visible/ol=2px_solid_var(--accent);outline-offset=-2px
+	_:is(button,a,select,textarea,[role='separator']):focus-visible/ol=2_solid_--accent;outline-offset=-2px
 	@max-width=820px&max-height=495px@oy=auto
 	@max-width=820px&max-height=495px@_body/oy=auto">
 	<head>
@@ -15,157 +15,171 @@
 		<link rel="stylesheet" href="./app.css">
 		<script src="./app.js" defer></script>
 	</head>
-	<body class="bg=var(--bg) c=var(--text) -webkit-font-smoothing=antialiased">
-		<div class="app-shell d=grid gtr=54px_minmax(0,_1fr) w=100% h=100dvh mih=0
-			@max-width=820px@gtr=50px_minmax(0,_1fr)
-			@max-width=820px&max-height=495px@h=496px;mih=496px">
-			<header class="topbar d=flex ai=center jc=space-between g=20px p=0_14px_0_16px bdb=1px_solid_var(--line) bg=rgba(11,_12,_16,_0.94) bf=blur(16px)
-				@max-width=820px@p=0_9px_0_12px">
-				<a class="brand d=inline-flex ai=center g=9px miw=0 c=inherit td=none" href="https://github.com/Artxe/click-css" target="_blank" rel="noreferrer" aria-label="Click CSS on GitHub">
-					<svg class="brand-mark w=27px h=27px f=0_0_auto
-						_rect/fill=var(--accent)
+	<body class="bg=--bg c=--text -webkit-font-smoothing=antialiased">
+		<div class="app-shell grid gtr=54_minmax(0,_1fr) w=100% h=100dvh mih=0
+			@max-width=820px@gtr=50_minmax(0,_1fr)
+			@max-width=820px&max-height=495px@h=496;mih=496">
+			<header class="topbar flex ai=center jc=space-between g=20 p=0_14_0_16 bdb=1_solid_--line bg=--bg
+				@max-width=820px@p=0_9_0_12">
+				<a class="brand d=inline-flex ai=center g=9 miw=0 c=inherit td=none" href="https://github.com/artxe/click-css" target="_blank" rel="noreferrer" aria-label="Click CSS on GitHub">
+					<svg class="brand-mark w=27 h=27 f=0_0_auto
+						_rect/fill=--accent
 						_path/fill=white" viewBox="0 0 32 32" aria-hidden="true">
 						<rect width="32" height="32" rx="9"></rect>
 						<path d="m10 7 13 9-7 2 3 7-3 1-3-7-3 4Z"></path>
 					</svg>
-					<span class="brand-name fs=15px fw=720 ls=-0.02em
-						@max-width=570px@fs=14px">click.css</span>
-					<span class="brand-tag p=3px_7px bd=1px_solid_var(--line-strong) br=999px c=var(--muted) fs=9px fw=700 ls=0.1em lh=1.2 tt=uppercase
+					<span class="brand-name fs=15 fw=720 ls=-0.02em
+						@max-width=570px@fs=14">click.css</span>
+					<span class="brand-tag p=3_7 bd=1_solid_--line-strong br=999 c=--muted fs=10 fw=700 ls=0.1em lh=1.2 tt=uppercase
 						@max-width=820px@none">Playground</span>
 				</a>
 
-				<div class="topbar-actions d=flex ai=center g=8px miw=0">
-					<div id="live-status" class="live-status d=flex ai=center g=7px miw=72px p=0_8px c=var(--muted-strong) fs=11px
-						.is-busy_.status-dot/bg=var(--accent);bsd=0_0_0_4px_var(--accent-soft);a=pulse_1s_ease-in-out_infinite
-						.is-error_.status-dot/bg=var(--danger);bsd=0_0_0_4px_rgba(255,_107,_122,_0.11)
+				<div class="topbar-actions flex ai=center g=8 miw=0">
+					<div id="live-status" class="live-status flex ai=center g=7 miw=72 p=0_8 c=--muted-strong fs=11
+						.is-busy_.status-dot/bg=--accent;bsd=0_0_0_4_--accent-soft;a=pulse_1s_ease-in-out_infinite
+						.is-error_.status-dot/bg=--danger;bsd=0_0_0_4_rgba(255,_107,_122,_0.11)
 						@max-width=820px@none" role="status" aria-live="polite">
-						<span class="status-dot w=7px h=7px br=50% bg=var(--success) bsd=0_0_0_4px_rgba(89,_212,_153,_0.1)" aria-hidden="true"></span>
+						<span class="status-dot w=7 h=7 br=50% bg=--success bsd=0_0_0_4_rgba(89,_212,_153,_0.1)" aria-hidden="true"></span>
 						<span id="status-label">Live</span>
 					</div>
 
-					<label class="select-control d=flex ai=center h=32px bd=1px_solid_var(--line) br=7px bg=var(--panel-raised) position=relative g=5px pl=9px c=var(--muted-strong)
-						:hover/bdc=var(--line-strong);bg=#1a1b23;c=var(--text)
+					<label class="select-control flex ai=center h=32 bd=1_solid_--line br=7 bg=--panel-raised relative g=5 pl=9 c=--muted-strong
+						:hover/bdc=--line-strong;bg=#1a1b23;c=--text
 						_svg/fill=none;stroke=currentColor;stroke-linecap=round;stroke-linejoin=round;stroke-width=1.5
-						_svg/w=16px;h=16px
-						_select/maw=150px;h=100%;p=0_25px_0_0;bd=0;ol=0;bg=transparent;cs=pointer;fs=12px
-						::after/position=absolute;r=9px;w=6px;h=6px;bdr=1.5px_solid_currentColor;bdb=1.5px_solid_currentColor;ct='';pe=none;tf=translateY(-2px)_rotate(45deg)
-						_option/bg=var(--panel-raised)
+						_svg/w=16;h=16
+						_select/maw=150;h=100%;p=0_25_0_0;bd=0;ol=0;bg=transparent;cs=pointer;fs=12
+						::after/absolute;r=9;w=6;h=6;bdr=1.5_solid_currentColor;bdb=1.5_solid_currentColor;ct='';pe=none;tf=translateY(-2px)_rotate(45deg)
+						_option/bg=--panel-raised
 						@max-width=570px@_svg/none
-						@max-width=570px@pl=6px
-						@max-width=570px@_select/maw=112px;pl=2px" aria-label="Load example">
+						@max-width=570px@pl=6
+						@max-width=570px@_select/maw=112;pl=2" aria-label="Load example">
 						<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4.75h12v10.5H4zM7 8l2 2-2 2"></path></svg>
 						<select id="example-select">
 							<option value="profile">Profile card</option>
 							<option value="responsive">Responsive grid</option>
 							<option value="selectors">Selectors</option>
+							<option value="grammar">Grammar tour</option>
 							<option value="custom" hidden>Custom</option>
 						</select>
 					</label>
 
-					<button id="share-button" class="button d=flex ai=center h=32px bd=1px_solid_var(--line) br=7px bg=var(--panel-raised) jc=center cs=pointer c=var(--muted-strong) td=none g=7px p=0_10px fs=12px
-						:hover/bdc=var(--line-strong);bg=#1a1b23;c=var(--text)
+					<button id="theme-button" class="button flex ai=center h=32 bd=1_solid_--line br=7 bg=--panel-raised jc=center cs=pointer c=--muted-strong td=none g=7 p=0_10 fs=12
+						:hover/bdc=--line-strong;bg=#1a1b23;c=--text
 						_svg/fill=none;stroke=currentColor;stroke-linecap=round;stroke-linejoin=round;stroke-width=1.5
-						_svg/w=16px;h=16px
+						_svg/w=16;h=16
+						_svg[hidden]/none
 						@max-width=570px@_span/none
-						@max-width=570px@w=30px;p=0" type="button" title="Copy share link">
+						@max-width=570px@w=30;p=0" type="button" title="Preview color scheme">
+						<svg data-theme="" viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="10" rx="1.5"></rect><path d="M10 14v3M7 17h6"></path></svg>
+						<svg data-theme="LIGHT" viewBox="0 0 20 20" aria-hidden="true" hidden><circle cx="10" cy="10" r="3.5"></circle><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M4.7 15.3l1.4-1.4M13.9 6.1l1.4-1.4"></path></svg>
+						<svg data-theme="DARK" viewBox="0 0 20 20" aria-hidden="true" hidden><path d="M16.5 12.2A6.8 6.8 0 0 1 7.8 3.5a6.8 6.8 0 1 0 8.7 8.7Z"></path></svg>
+						<span id="theme-label">System</span>
+					</button>
+
+					<button id="share-button" class="button flex ai=center h=32 bd=1_solid_--line br=7 bg=--panel-raised jc=center cs=pointer c=--muted-strong td=none g=7 p=0_10 fs=12
+						:hover/bdc=--line-strong;bg=#1a1b23;c=--text
+						_svg/fill=none;stroke=currentColor;stroke-linecap=round;stroke-linejoin=round;stroke-width=1.5
+						_svg/w=16;h=16
+						@max-width=570px@_span/none
+						@max-width=570px@w=30;p=0" type="button" title="Copy share link">
 						<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 11.5 12.5 6.5M6.4 14.4l-1.2 1.2a2.55 2.55 0 0 1-3.6-3.6l3.2-3.2a2.55 2.55 0 0 1 3.6 0M13.6 5.6l1.2-1.2a2.55 2.55 0 0 1 3.6 3.6l-3.2 3.2a2.55 2.55 0 0 1-3.6 0"></path></svg>
 						<span>Share</span>
 					</button>
 
-					<a class="icon-button d=flex ai=center h=32px bd=1px_solid_var(--line) br=7px bg=var(--panel-raised) jc=center cs=pointer c=var(--muted-strong) td=none w=32px
-						:hover/bdc=var(--line-strong);bg=#1a1b23;c=var(--text)
+					<a class="icon-button flex ai=center h=32 bd=1_solid_--line br=7 bg=--panel-raised jc=center cs=pointer c=--muted-strong td=none w=32
+						:hover/bdc=--line-strong;bg=#1a1b23;c=--text
 						_svg/fill=none;stroke=currentColor;stroke-linecap=round;stroke-linejoin=round;stroke-width=1.5
-						_svg/w=18px;h=18px;fill=currentColor;stroke=none
-						@max-width=570px@none" href="https://github.com/Artxe/click-css" target="_blank" rel="noreferrer" title="View on GitHub" aria-label="View on GitHub">
+						_svg/w=18;h=18;fill=currentColor;stroke=none
+						@max-width=570px@none" href="https://github.com/artxe/click-css" target="_blank" rel="noreferrer" title="View on GitHub" aria-label="View on GitHub">
 						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.87c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.82a9.6 9.6 0 0 1 2.5.34c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"></path></svg>
 					</a>
 				</div>
 			</header>
 
-			<main id="workspace" class="workspace d=grid gtc=clamp(300px,_var(--editor-size),_calc(100%_-_306px))_6px_minmax(300px,_1fr) miw=0 mih=0
-				@max-width=820px@gtr=clamp(220px,_var(--editor-block-size),_calc(100%_-_226px))_6px_minmax(220px,_1fr);gtc=minmax(0,_1fr)">
-				<section class="panel editor-panel d=grid miw=0 mih=0 bg=var(--panel) gtr=42px_minmax(0,_1fr)_27px" aria-label="HTML editor">
-					<header class="panelbar d=flex ai=center jc=space-between g=12px miw=0 p=0_10px_0_14px bdb=1px_solid_var(--line) bg=var(--panel)">
-						<div class="panel-title d=flex ai=center g=8px miw=0 c=var(--muted-strong) ff=ui-monospace,_SFMono-Regular,_Menlo,_Monaco,_Consolas,_monospace fs=11px">
-							<span class="file-dot w=7px h=7px br=2px bg=#ff866d" aria-hidden="true"></span>
+			<main id="workspace" class="workspace grid gtc=clamp(300px,_var(--editor-size),_calc(100%_-_306px))_6_minmax(300px,_1fr) miw=0 mih=0
+				@max-width=820px@gtr=clamp(220px,_var(--editor-block-size),_calc(100%_-_226px))_6_minmax(220px,_1fr);gtc=minmax(0,_1fr)">
+				<section class="panel editor-panel grid miw=0 mih=0 bg=--panel gtr=42_minmax(0,_1fr)_27" aria-label="HTML editor">
+					<header class="panelbar flex ai=center jc=space-between g=12 miw=0 p=0_10_0_14 bdb=1_solid_--line bg=--panel">
+						<div class="panel-title flex ai=center g=8 miw=0 c=--muted-strong ff=ui-monospace,_SFMono-Regular,_Menlo,_Monaco,_Consolas,_monospace fs=11">
+							<span class="file-dot w=7 h=7 br=2 bg=#ff866d" aria-hidden="true"></span>
 							<span>index.html</span>
 						</div>
-						<div class="panel-actions d=flex ai=center g=6px">
-							<button id="copy-button" class="quiet-button d=flex ai=center h=32px bd=1px_solid_var(--line) br=7px bg=var(--panel-raised) jc=center cs=pointer g=6px h=27px p=0_7px bdc=transparent bg=transparent c=var(--muted) fs=11px
-								:hover/bdc=var(--line-strong);bg=#1a1b23;c=var(--text)
+						<div class="panel-actions flex ai=center g=6">
+							<button id="copy-button" class="quiet-button flex ai=center bd=1_solid_--line br=7 jc=center cs=pointer g=6 h=27 p=0_7 bdc=transparent bg=transparent c=--muted fs=11
+								:hover/bdc=--line-strong;bg=#1a1b23;c=--text
 								_svg/fill=none;stroke=currentColor;stroke-linecap=round;stroke-linejoin=round;stroke-width=1.5
-								_svg/w=16px;h=16px
-								:hover/bdc=var(--line)
+								_svg/w=16;h=16
+								:hover/bdc=--line
 								@max-width=570px@_span/none
-								@max-width=570px@w=30px;p=0" type="button" title="Copy HTML">
+								@max-width=570px@w=30;p=0" type="button" title="Copy HTML">
 								<svg viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="9" height="9" rx="1.5"></rect><path d="M13 7V5.5A1.5 1.5 0 0 0 11.5 4h-7A1.5 1.5 0 0 0 3 5.5v7A1.5 1.5 0 0 0 4.5 14H7"></path></svg>
 								<span>Copy</span>
 							</button>
-							<button id="reset-button" class="quiet-button d=flex ai=center h=32px bd=1px_solid_var(--line) br=7px bg=var(--panel-raised) jc=center cs=pointer g=6px h=27px p=0_7px bdc=transparent bg=transparent c=var(--muted) fs=11px
-								:hover/bdc=var(--line-strong);bg=#1a1b23;c=var(--text)
+							<button id="reset-button" class="quiet-button flex ai=center bd=1_solid_--line br=7 jc=center cs=pointer g=6 h=27 p=0_7 bdc=transparent bg=transparent c=--muted fs=11
+								:hover/bdc=--line-strong;bg=#1a1b23;c=--text
 								_svg/fill=none;stroke=currentColor;stroke-linecap=round;stroke-linejoin=round;stroke-width=1.5
-								_svg/w=16px;h=16px
-								:hover/bdc=var(--line)
+								_svg/w=16;h=16
+								:hover/bdc=--line
 								@max-width=570px@_span/none
-								@max-width=570px@w=30px;p=0" type="button" title="Reset example">
+								@max-width=570px@w=30;p=0" type="button" title="Reset example">
 								<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.3 6.2A6.5 6.5 0 1 1 3.5 10M4.3 6.2V2.8M4.3 6.2h3.4"></path></svg>
 								<span>Reset</span>
 							</button>
 						</div>
 					</header>
 
-					<div class="editor-surface position=relative d=grid gtc=51px_minmax(0,_1fr) miw=0 mih=0 o=hidden bg=#0e0f14
-						@max-width=570px@gtc=43px_minmax(0,_1fr)">
-						<pre id="line-numbers" class="line-numbers m=0 pt=18px pb=32px ff='SFMono-Regular',_Consolas,_'Liberation_Mono',_Menlo,_monospace fs=13px font-variant-ligatures=none lh=1.65 tab-size=~2 pr=13px pl=6px o=hidden bdr=1px_solid_rgba(255,_255,_255,_0.035) c=#50535e ta=right us=none
-							@max-width=570px@fs=12px;pr=10px" aria-hidden="true">1</pre>
-						<textarea id="editor" class="editor m=0 pt=18px pb=32px ff='SFMono-Regular',_Consolas,_'Liberation_Mono',_Menlo,_monospace fs=13px font-variant-ligatures=none lh=1.65 tab-size=~2 w=100% h=100% pr=22px pl=17px resize=none bd=0 ol=0 bg=transparent caret-color=#c4bfff c=#dcdee7 o=auto ws=pre
+					<div class="editor-surface relative grid gtc=51_minmax(0,_1fr) miw=0 mih=0 o=hidden bg=#0e0f14
+						@max-width=570px@gtc=43_minmax(0,_1fr)">
+						<pre id="line-numbers" class="line-numbers m=0 pt=18 pb=32 ff='SFMono-Regular',_Consolas,_'Liberation_Mono',_Menlo,_monospace fs=13 font-variant-ligatures=none lh=1.65 tab-size=~2 pr=13 pl=6 o=hidden bdr=1_solid_rgba(255,_255,_255,_0.035) c=#50535e ta=right us=none
+							@max-width=570px@fs=12;pr=10" aria-hidden="true">1</pre>
+						<textarea id="editor" class="editor m=0 pt=18 pb=32 ff='SFMono-Regular',_Consolas,_'Liberation_Mono',_Menlo,_monospace fs=13 font-variant-ligatures=none lh=1.65 tab-size=~2 w=100% h=100% pr=22 pl=17 resize=none bd=0 ol=0 bg=transparent caret-color=#c4bfff c=#dcdee7 o=auto ws=pre
 							::selection/bg=rgba(124,_108,_255,_0.3)
-							@max-width=570px@fs=12px;pl=12px" aria-label="HTML source" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off"></textarea>
+							@max-width=570px@fs=12;pl=12" aria-label="HTML source" autocomplete="off" autocapitalize="off" spellcheck="false" wrap="off"></textarea>
 					</div>
 
-					<footer class="editor-footer d=flex ai=center jc=space-between p=0_12px_0_14px bdt=1px_solid_var(--line) c=var(--muted) ff=ui-monospace,_SFMono-Regular,_Menlo,_Monaco,_Consolas,_monospace fs=10px">
+					<footer class="editor-footer flex ai=center jc=space-between p=0_12_0_14 bdt=1_solid_--line c=--muted ff=ui-monospace,_SFMono-Regular,_Menlo,_Monaco,_Consolas,_monospace fs=11">
 						<span id="cursor-position">Ln 1, Col 1</span>
-						<span class="shortcut d=flex ai=center g=4px
-							_span:last-child/ml=3px
+						<span class="shortcut flex ai=center g=4
+							_span:last-child/ml=3
 							@max-width=570px@none"><kbd>Ctrl</kbd><span>+</span><kbd>Enter</kbd><span>Run</span></span>
 					</footer>
 				</section>
 
-				<div id="divider" class="divider position=relative z=2 cs=col-resize touch-action=none
-					::before/position=absolute;i=0_2px;bg=var(--line);ct=''
-					_span/position=absolute;t=50%;l=50%;w=2px;h=34px;br=3px;bg=var(--line-strong);tf=translate(-50%,_-50%)
-					:hover::before/bg=var(--accent)
-					:focus-visible::before/bg=var(--accent)
-					.is-dragging::before/bg=var(--accent)
+				<div id="divider" class="divider relative z=2 cs=col-resize touch-action=none
+					::before/absolute;in=0_2;bg=--line;ct=''
+					_span/absolute;t=50%;l=50%;w=2;h=34;br=3;bg=--line-strong;tf=translate(-50%,_-50%)
+					:hover::before/bg=--accent
+					:focus-visible::before/bg=--accent
+					.is-dragging::before/bg=--accent
 					@max-width=820px@cs=row-resize
-					@max-width=820px@::before/i=2px_0
-					@max-width=820px@_span/w=34px;h=2px" role="separator" aria-label="Resize panels" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="75" aria-valuenow="48" tabindex="0">
+					@max-width=820px@::before/in=2_0
+					@max-width=820px@_span/w=34;h=2" role="separator" aria-label="Resize panels" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="75" aria-valuenow="48" tabindex="0">
 					<span aria-hidden="true"></span>
 				</div>
 
-				<section class="panel output-panel d=grid miw=0 mih=0 bg=var(--panel) gtr=42px_minmax(0,_1fr)" aria-label="Playground output">
-					<header class="panelbar output-bar d=flex ai=center jc=space-between g=12px miw=0 p=0_10px_0_14px bdb=1px_solid_var(--line) bg=var(--panel) pl=8px">
-						<div class="tabs d=flex as=stretch g=2px" role="tablist" aria-label="Output view">
-							<button id="preview-tab" class="tab is-active position=relative p=0_9px bd=0 bg=transparent c=var(--muted) cs=pointer fs=11px
-								::after/position=absolute;r=8px;b=-1px;l=8px;h=2px;br=2px_2px_0_0;bg=transparent;ct=''
-								:hover/c=var(--text)
-								.is-active/c=var(--text)
-								.is-active::after/bg=var(--accent)" type="button" role="tab" aria-selected="true" aria-controls="preview-view">Preview</button>
-							<button id="css-tab" class="tab position=relative p=0_9px bd=0 bg=transparent c=var(--muted) cs=pointer fs=11px
-								::after/position=absolute;r=8px;b=-1px;l=8px;h=2px;br=2px_2px_0_0;bg=transparent;ct=''
-								:hover/c=var(--text)
-								.is-active/c=var(--text)
-								.is-active::after/bg=var(--accent)" type="button" role="tab" aria-selected="false" aria-controls="css-view">CSS <span id="css-size" class="tab-meta ml=4px c=var(--muted) fs=9px">0 B</span></button>
+				<section class="panel output-panel grid miw=0 mih=0 bg=--panel gtr=42_minmax(0,_1fr)" aria-label="Playground output">
+					<header class="panelbar output-bar flex ai=center jc=space-between g=12 miw=0 p=0_10_0_14 bdb=1_solid_--line bg=--panel pl=8">
+						<div class="tabs flex as=stretch g=2" role="tablist" aria-label="Output view">
+							<button id="preview-tab" class="tab is-active relative p=0_9 bd=0 bg=transparent c=--muted cs=pointer fs=11
+								::after/absolute;r=8;b=-1;l=8;h=2;br=2_2_0_0;bg=transparent;ct=''
+								:hover/c=--text
+								.is-active/c=--text
+								.is-active::after/bg=--accent" type="button" role="tab" aria-selected="true" aria-controls="preview-view">Preview</button>
+							<button id="css-tab" class="tab relative p=0_9 bd=0 bg=transparent c=--muted cs=pointer fs=11
+								::after/absolute;r=8;b=-1;l=8;h=2;br=2_2_0_0;bg=transparent;ct=''
+								:hover/c=--text
+								.is-active/c=--text
+								.is-active::after/bg=--accent" type="button" role="tab" aria-selected="false" aria-controls="css-view">CSS <span id="css-size" class="tab-meta ml=4 c=--muted fs=10">0 B</span></button>
 						</div>
 
-						<div class="panel-actions preview-actions d=flex ai=center g=6px">
-							<button id="run-button" class="quiet-button run-button d=flex ai=center h=32px bd=1px_solid_var(--line) br=7px bg=var(--panel-raised) jc=center cs=pointer g=6px h=27px p=0_7px bdc=transparent bg=transparent c=var(--muted) fs=11px c=#bbb5ff
-								:hover/bdc=var(--line-strong);bg=#1a1b23;c=var(--text)
+						<div class="panel-actions preview-actions flex ai=center g=6">
+							<button id="run-button" class="quiet-button run-button flex ai=center bd=1_solid_--line br=7 jc=center cs=pointer g=6 h=27 p=0_7 bdc=transparent bg=transparent fs=11 c=#bbb5ff
+								:hover/bdc=--line-strong;bg=#1a1b23;c=--text
 								_svg/fill=none;stroke=currentColor;stroke-linecap=round;stroke-linejoin=round;stroke-width=1.5
-								_svg/w=16px;h=16px
-								:hover/bdc=var(--line)
+								_svg/w=16;h=16
+								:hover/bdc=--line
 								@max-width=570px@_span/none
-								@max-width=570px@w=30px;p=0" type="button" title="Run playground (Ctrl+Enter)">
+								@max-width=570px@w=30;p=0" type="button" title="Run playground (Ctrl+Enter)">
 								<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.3 6.2A6.5 6.5 0 1 1 3.5 10M4.3 6.2V2.8M4.3 6.2h3.4"></path></svg>
 								<span>Run</span>
 							</button>
@@ -173,20 +187,21 @@
 					</header>
 
 					<div class="output-body miw=0 mih=0 relative">
-						<div id="preview-view" class="preview-view miw=0 mih=0 position=absolute i=0 o=auto background-color=#181a21 background-image=linear-gradient(45deg,_#1d1f27_25%,_transparent_25%),_linear-gradient(-45deg,_#1d1f27_25%,_transparent_25%),_linear-gradient(45deg,_transparent_75%,_#1d1f27_75%),_linear-gradient(-45deg,_transparent_75%,_#1d1f27_75%) background-position=0_0,_0_8px,_8px_-8px,_-8px_0 background-size=16px_16px
+						<div id="preview-view" class="preview-view absolute in=0 o=hidden bg=white
 							[hidden]/none" role="tabpanel" aria-labelledby="preview-tab">
-							<div class="preview-stage position=relative w=100% h=100% miw=280px mih=260px m=0_auto o=hidden bg=white">
-								<div id="preview-root" class="preview-root w=100% h=100% o=auto bg=white contain=layout_paint" aria-label="Click CSS preview"></div>
-								<div id="preview-loader" class="preview-loader position=absolute i=0 d=grid pci=center pe=none bg=rgba(255,_255,_255,_0.46) op=0 tr=opacity_120ms_ease
-									.is-visible/op=1
-									_span/w=22px;h=22px;bd=2px_solid_rgba(17,_18,_24,_0.15);border-top-color=var(--accent);br=50%;a=spin_650ms_linear_infinite" aria-hidden="true"><span></span></div>
-							</div>
+							<iframe class="preview-frame absolute in=0 w=100% h=100% bd=0 bg=white
+								.is-standby/visibility=hidden;pe=none" sandbox="allow-scripts" title="Click CSS preview"></iframe>
+							<iframe class="preview-frame absolute in=0 w=100% h=100% bd=0 bg=white
+								.is-standby/visibility=hidden;pe=none is-standby" sandbox="allow-scripts" title="Click CSS preview"></iframe>
+							<div id="preview-loader" class="preview-loader absolute in=0 grid pci=center pe=none bg=rgba(255,_255,_255,_0.46) op=0 tr=opacity_120ms_ease
+								.is-visible/op=1
+								_span/w=22;h=22;bd=2_solid_rgba(17,_18,_24,_0.15);border-top-color=--accent;br=50%;a=spin_650ms_linear_infinite" aria-hidden="true"><span></span></div>
 						</div>
 
-						<div id="css-view" class="css-view miw=0 mih=0 position=absolute i=0 o=auto bg=#0e0f14
+						<div id="css-view" class="css-view miw=0 mih=0 absolute in=0 o=auto bg=#0e0f14
 							[hidden]/none
-							_pre/miw=max-content;m=0;p=20px_22px_60px
-							_code/c=#cfd1dc;ff='SFMono-Regular',_Consolas,_'Liberation_Mono',_Menlo,_monospace;fs=12px;lh=1.65;ws=pre" role="tabpanel" aria-labelledby="css-tab" hidden>
+							_pre/miw=max-content;m=0;p=20_22_60
+							_code/c=#cfd1dc;ff='SFMono-Regular',_Consolas,_'Liberation_Mono',_Menlo,_monospace;fs=12;lh=1.65;ws=pre" role="tabpanel" aria-labelledby="css-tab" hidden>
 							<pre><code id="css-output">/* Generated CSS will appear here. */</code></pre>
 						</div>
 					</div>
@@ -194,7 +209,7 @@
 			</main>
 		</div>
 
-		<div id="toast" class="toast position=fixed r=18px b=18px z=20 maw=min(340px,_calc(100vw_-_36px)) p=10px_13px bd=1px_solid_var(--line-strong) br=8px bg=#1b1d25 bsd=0_14px_45px_rgba(0,_0,_0,_0.35) c=var(--text) fs=12px op=0 pe=none tf=translateY(8px) tr=opacity_160ms_ease,_transform_160ms_ease
+		<div id="toast" class="toast fixed r=18 b=18 z=20 maw=min(340px,_calc(100vw_-_36px)) p=10_13 bd=1_solid_--line-strong br=8 bg=#1b1d25 bsd=0_14_45_rgba(0,_0,_0,_0.35) c=--text fs=12 op=0 pe=none tf=translateY(8px) tr=opacity_160ms_ease,_transform_160ms_ease
 			.is-visible/op=1;tf=translateY(0)
 			.is-error/bdc=rgba(255,_107,_122,_0.45)" role="status" aria-live="polite"></div>
 	</body>

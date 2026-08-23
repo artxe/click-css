@@ -1,4 +1,4 @@
 node_modules
 .eslintcache
-/packages/vsce/out
+/extension/out
 *.vsix

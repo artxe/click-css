@@ -1,9 +1,4 @@
 {
 	"eslint.enable": true,
-	"eslint.validate": [
-		"html",
-		"javascript",
-		"json",
-		"typescript"
-	]
+	"eslint.validate": [ "html", "javascript", "json", "typescript" ]
 }

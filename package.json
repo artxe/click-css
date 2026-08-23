@@ -1,18 +1,39 @@
 {
-	"author": "Artxe",
+	"author": "artxe",
+	"bugs": { "url": "https://github.com/artxe/click-css/issues" },
 	"description": "Write CSS in the class attribute",
+	"devDependencies": {
+		"@types/node": "^26.6.1",
+		"@typescript-eslint/parser": "^8.70.0",
+		"@typescript/native": "npm:typescript@^7.0.2",
+		"eslint": "^10.10.0",
+		"eslint-plugin-lube": "^0.6.0",
+		"terser": "^5.51.2",
+		"typescript": "npm:@typescript/typescript6@^6.0.2"
+	},
+	"engines": { "node": "^22.15.0 || >=24" },
+	"homepage": "https://artxe.github.io/click-css/",
+	"keywords": [
+		"class",
+		"click-css",
+		"css",
+		"inline styles",
+		"no build step",
+		"runtime css"
+	],
 	"license": "MIT",
 	"name": "click-css",
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Artxe/click-css.git"
+		"url": "https://github.com/artxe/click-css"
 	},
 	"scripts": {
-		"build": "pnpm -r build",
-		"latest": "pnpm -r up --latest && cd packages/vsce && pnpm i @types/vscode@1.62.0 && pnpm lint",
-		"lint": "pnpm -r lint",
-		"test": "pnpm -r test"
+		"build": "node build.mjs && pnpm -C extension build",
+		"latest": "pnpm up --latest && pnpm -C extension latest && pnpm lint",
+		"lint": "eslint --cache --fix . && tsc && tsc -p extension",
+		"test": "node --test \"test/*.test.mjs\""
 	},
-	"version": "1.1.0"
+	"type": "module",
+	"version": "2.0.0"
 }
