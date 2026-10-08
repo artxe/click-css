@@ -8,7 +8,9 @@ function declares(cases) {
 			cname + "  →  " + (expected || "(ignored)"),
 			() => {
 				const css = compile(cname)
-				if (!expected) return assert.equal(css, "", "should be ignored")
+				if (!expected) {
+					return assert.equal(css, "", "should be ignored")
+				}
 				assert.notEqual(css, "", "no rule was generated")
 				assert.equal(declarations(css), expected)
 			}
@@ -235,12 +237,19 @@ function leaves_block_open(css) {
 	let depth = 0
 	for (let i = 0; i < css.length; i++) {
 		const c = css[i]
-		if (c == "\\") i++
-		else if (quote) {
-			if (c == quote) quote = ""
-		} else if (c == "'" || c == "\"") quote = c
-		else if (c == "(" || c == "[" || c == "{") depth++
-		else if (c == ")" || c == "]" || c == "}") depth--
+		if (c == "\\") {
+			i++
+		} else if (quote) {
+			if (c == quote) {
+				quote = ""
+			}
+		} else if (c == "'" || c == "\"") {
+			quote = c
+		} else if (c == "(" || c == "[" || c == "{") {
+			depth++
+		} else if (c == ")" || c == "]" || c == "}") {
+			depth--
+		}
 	}
 	return !!quote || depth != 0
 }

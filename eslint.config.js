@@ -2,7 +2,14 @@ import parser from "@typescript-eslint/parser"
 import lube from "eslint-plugin-lube"
 /** @type {import("eslint").Linter.Config[]} */
 export default [
-	{ ignores: [ "docs/min.js", "extension/out/**" ] },
+	{
+		ignores: [
+			".claude/settings*.json",
+			".scratch/**",
+			"docs/min.js",
+			"extension/out/**"
+		]
+	},
 	{
 		files: [ "**/*.js", "**/*.json", "**/*.mjs", "**/*.ts" ],
 		languageOptions: { ecmaVersion: "latest", parser, sourceType: "module" },

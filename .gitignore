@@ -2,3 +2,5 @@ node_modules
 .eslintcache
 /extension/out
 *.vsix
+.scratch/
+.claude/settings.local.json

@@ -2,18 +2,7 @@
 
 `src/click-css.js` is the whole library: one top-level block, no imports, no build step for consumers. README.md is the user spec and links `click-css.js` by line number, so fix those links when lines move.
 
-| path | contents |
-|---|---|
-| `src` | `click-css.js`, the source of truth |
-| `test` | node:test suites over the real source |
-| `extension` | VSCode extension `Artxe.intellisense-click-css`; ESM source bundled to ESM `out/index.js`, loaded by VS Code 1.100 or newer |
-| `docs` | GitHub Pages playground; `pnpm build` writes `min.js` there |
-
-```bash
-pnpm test    # node --test over the real source, both collection paths + extension parity
-pnpm build   # terser → docs/min.js, then the extension bundle; version stamp checked
-pnpm lint    # eslint --fix (one root config, extension included), tsc, tsc -p extension
-```
+Layout and commands are in README.md. Not there: `pnpm lint` also runs `tsc -p extension`; the extension is `Artxe.intellisense-click-css`, ESM source bundled to ESM `out/index.js`, loaded by VS Code 1.100+.
 
 Root and `extension` share one version number; moving any version number follows `.claude/skills/release`.
 
@@ -27,4 +16,4 @@ Root and `extension` share one version number; moving any version number follows
 
 ## Style
 
-Tabs, no semicolons, `snake_case`, `let` everywhere (`prefer-const` off), JSDoc types under `checkJs` + `strict`. No prose comments in `src`, `test`, `extension/src` or configs: only type tags, casts and directives. Ambient types live in `private.d.ts`. eslint-plugin-lube; `lube/pretty-sequence` at maxLength 50 outside `extension`. A named helper is a `function` declaration, not an arrow assigned to a binding (`func-style`), which costs `docs/min.js` about 230 B against the README's 7 KB bound.
+Tabs, no semicolons, `snake_case`, `let` everywhere (`prefer-const` off), JSDoc types under `checkJs` + `strict`. No prose comments in `src`, `test`, `extension/src` or configs: only type tags, casts and directives. Ambient types live in `private.d.ts`. eslint-plugin-lube; `lube/pretty-sequence` at maxLength 50 outside `extension`. A named helper is a `function` declaration, not an arrow assigned to a binding (`func-style`), which costs `docs/min.js` about 230 B against the README's size bound.

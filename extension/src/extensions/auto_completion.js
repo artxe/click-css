@@ -22,12 +22,22 @@ export default context => {
 			parse_dom(document.fileName, text)
 		)
 		const attribute = element?.attributes[element.attributes.length - 1]
-		if (!attribute) return false
-		if (attribute.name != "class" && attribute.name != "className" && attribute.name != "classs") return false
-		if (text[attribute.start] == ".") return false
-		if (typeof attribute.value == "boolean") return attribute.end == offset && text[offset - 1] == "="
+		if (!attribute) {
+			return false
+		}
+		if (attribute.name != "class" && attribute.name != "className" && attribute.name != "classs") {
+			return false
+		}
+		if (text[attribute.start] == ".") {
+			return false
+		}
+		if (typeof attribute.value == "boolean") {
+			return attribute.end == offset && text[offset - 1] == "="
+		}
 		const value = attribute.value
-		if (value.end != offset) return false
+		if (value.end != offset) {
+			return false
+		}
 		const closing = value.type == "Script"
 			? "}"
 			: value.subType == "unquoted"
@@ -41,10 +51,14 @@ export default context => {
 	 */
 	function last_element(nodes) {
 		const node = nodes[nodes.length - 1]
-		if (node?.type == "Script") return last_element(
-			"elements" in node ? node.elements : []
-		)
-		if (node?.type != "Element") return
+		if (node?.type == "Script") {
+			return last_element(
+				"elements" in node ? node.elements : []
+			)
+		}
+		if (node?.type != "Element") {
+			return
+		}
 		return last_element(node.children) ?? node
 	}
 	const razor_file_regex = /\.(?:cshtml|razor)$/i

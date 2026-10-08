@@ -4,5 +4,5 @@ allowBuilds:
   '@vscode/vsce-sign': false
   keytar: false
 minimumReleaseAgeExclude:
-  - eslint-plugin-lube@0.6.0
+  - eslint-plugin-lube@0.6.0 || 0.7.0
   - dom-eater@1.0.0

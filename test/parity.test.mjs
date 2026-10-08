@@ -208,11 +208,13 @@ describe(
 				() => {
 					const lib = compile(cname)
 					const vsce = plain(compile_vsce(cname))
-					if (!lib) return assert.equal(
-						vsce,
-						"",
-						"the extension shows a class the library dropped"
-					)
+					if (!lib) {
+						return assert.equal(
+							vsce,
+							"",
+							"the extension shows a class the library dropped"
+						)
+					}
 					assert.equal(
 						normalize(declarations(vsce)),
 						normalize(declarations(lib)),

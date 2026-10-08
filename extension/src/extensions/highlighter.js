@@ -90,7 +90,9 @@ export default context => {
 	function dfs_ast(text, node, class_names, razor) {
 		if (node.type == "Element") {
 			for (const attr of node.attributes) {
-				if (typeof attr.value == "boolean") continue
+				if (typeof attr.value == "boolean") {
+					continue
+				}
 				if (attr.name == "class" || attr.name == "className" || attr.name == "classs") {
 					if (attr.value.type == "String") {
 						analysis_class_name(text, attr.value, class_names, razor)
@@ -142,7 +144,9 @@ export default context => {
 		for (let i = start; i < end; i++) {
 			offsets.push(i)
 			unescaped += text[i]
-			if (text[i] == "@" && text[i + 1] == "@" && i + 1 < end) i++
+			if (text[i] == "@" && text[i + 1] == "@" && i + 1 < end) {
+				i++
+			}
 		}
 		offsets.push(end)
 		class_names.push(
@@ -161,7 +165,9 @@ export default context => {
 		}
 	}
 	async function update_decorations() {
-		if (!active_editor) return
+		if (!active_editor) {
+			return
+		}
 		const document = active_editor.document
 		const text = document.getText()
 		const ast = parse_dom(document.fileName, text)
@@ -191,7 +197,9 @@ export default context => {
 			while ((match = token_regex.exec(class_name))) {
 				const cname = match[0]
 				const style = compile_style(cname)
-				if (!style) continue
+				if (!style) {
+					continue
+				}
 				const cname_index = match.index
 				/**
 				 * @param {number} offset
@@ -238,7 +246,9 @@ export default context => {
 				let index = cname.indexOf("=", parse_index)
 				if (index >= 0) {
 					do {
-						if (cname[index - 1] != "\\") index_array.push(index)
+						if (cname[index - 1] != "\\") {
+							index_array.push(index)
+						}
 						index = cname.indexOf("=", index + 1)
 					} while (index >= 0)
 				}

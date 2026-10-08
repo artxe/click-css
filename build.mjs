@@ -27,8 +27,12 @@ const { code } = await minify(
 		parse: {}
 	}
 )
-if (!code) throw Error("terser returned no code")
-for (const target of targets) writeFileSync(url(target), code)
+if (!code) {
+	throw Error("terser returned no code")
+}
+for (const target of targets) {
+	writeFileSync(url(target), code)
+}
 console.log(
 	`click-css v${version}  ${code.length} B  (${gzipSync(code).length} B gzip)\n`
 	+ targets.map(t => "  -> " + t).join("\n")

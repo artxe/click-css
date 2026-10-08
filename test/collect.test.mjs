@@ -67,7 +67,9 @@ describe(
 				const original = String.prototype.match
 				let splits = 0
 				String.prototype.match = function(/** @type {any} */ pattern) {
-					if (pattern instanceof RegExp && pattern.source == String.raw`[^\t\n\f\r ]+`) splits++
+					if (pattern instanceof RegExp && pattern.source == String.raw`[^\t\n\f\r ]+`) {
+						splits++
+					}
 					return original.call(this, pattern)
 				}
 				try {

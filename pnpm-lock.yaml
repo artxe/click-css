@@ -21,8 +21,8 @@ importers:
         specifier: ^10.10.0
         version: 10.10.0(supports-color@7.2.0)
       eslint-plugin-lube:
-        specifier: ^0.6.0
-        version: 0.6.0(eslint@10.10.0(supports-color@7.2.0))
+        specifier: ^0.7.0
+        version: 0.7.0(eslint@10.10.0(supports-color@7.2.0))
       terser:
         specifier: ^5.51.2
         version: 5.51.2
@@ -846,8 +846,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-plugin-lube@0.6.0:
-    resolution: {integrity: sha512-K/DpIfNsvD4MWqSeO1+3vucjfCbNPzj5oHT7bQ2eEFE7i2Lx3yti8JKCK/lxX0wJjzulh36nFAwkY13VqYZKlw==}
+  eslint-plugin-lube@0.7.0:
+    resolution: {integrity: sha512-xivpCLA6w+nYyKcs7Wd05x6HguvYwIikPWvn7IA8zf27H3mvboDCUok+MNCkcKp0n+SN/YX4LaaKcH/1DEZDkg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=9.0.0'
@@ -2056,7 +2056,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-lube@0.6.0(eslint@10.10.0(supports-color@7.2.0)):
+  eslint-plugin-lube@0.7.0(eslint@10.10.0(supports-color@7.2.0)):
     dependencies:
       '@stylistic/eslint-plugin': 5.10.0(eslint@10.10.0(supports-color@7.2.0))
       eslint: 10.10.0(supports-color@7.2.0)

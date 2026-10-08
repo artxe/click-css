@@ -7,7 +7,9 @@ export function declarations(css) {
 	let out = css
 	for (let depth = css[0] == "@" ? 2 : 1; depth--;) {
 		const i = find_brace(out)
-		if (i < 0) return ""
+		if (i < 0) {
+			return ""
+		}
 		out = out.slice(i + 1, out.lastIndexOf("}"))
 	}
 	return out
@@ -75,8 +77,11 @@ export function escape(value) {
  */
 function find_brace(css) {
 	for (let i = 0; i < css.length; i++) {
-		if (css[i] == "\\") i++
-		else if (css[i] == "{") return i
+		if (css[i] == "\\") {
+			i++
+		} else if (css[i] == "{") {
+			return i
+		}
 	}
 	return -1
 }
@@ -142,7 +147,8 @@ export function load(source = default_source) {
 	const style = { setAttribute() {}, textContent: "" }
 	/** @type {((records: MutationRecordStub[]) => void)[]} */
 	const observers = []
-	let theme = /** @type {string | null} */(null)/**/
+	/** @type {string | null} */
+	let theme = null
 	Object.assign(
 		globalThis,
 		{

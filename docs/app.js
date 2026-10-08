@@ -197,7 +197,9 @@ function activate_output(name, focus = false) {
 	css_tab.setAttribute("aria-selected", String(!show_preview))
 	preview_tab.tabIndex = show_preview ? 0 : -1
 	css_tab.tabIndex = show_preview ? -1 : 0
-	if (focus) (show_preview ? preview_tab : css_tab).focus()
+	if (focus) {
+		(show_preview ? preview_tab : css_tab).focus()
+	}
 }
 // A complete document for the preview frame: the user's markup with its own copy of
 // click-css in <head>, a localStorage shim carrying the chosen THEME (the sandbox has no
@@ -266,7 +268,9 @@ function finish_render(css) {
 }
 function format_bytes(css) {
 	const bytes = new TextEncoder().encode(css).length
-	if (bytes < 1000) return `${bytes} B`
+	if (bytes < 1000) {
+		return `${bytes} B`
+	}
 	return `${(bytes / 1000).toFixed(bytes < 10_000 ? 1 : 0)} kB`
 }
 function format_css(css) {
@@ -283,14 +287,20 @@ function format_css(css) {
 			at_line_start = false
 		}
 		formatted += value
-		if (value.endsWith("\n")) at_line_start = true
+		if (value.endsWith("\n")) {
+			at_line_start = true
+		}
 	}
 	for (const character of css.trim()) {
 		if (quote) {
 			append(character)
-			if (escaped) escaped = false
-			else if (character === "\\") escaped = true
-			else if (character === quote) quote = ""
+			if (escaped) {
+				escaped = false
+			} else if (character === "\\") {
+				escaped = true
+			} else if (character === quote) {
+				quote = ""
+			}
 			continue
 		}
 		if (css_escaped) {
@@ -308,8 +318,12 @@ function format_css(css) {
 			append(character)
 			continue
 		}
-		if (character === "(") parentheses += 1
-		if (character === ")") parentheses = Math.max(0, parentheses - 1)
+		if (character === "(") {
+			parentheses += 1
+		}
+		if (character === ")") {
+			parentheses = Math.max(0, parentheses - 1)
+		}
 		if (parentheses === 0 && character === "{") {
 			formatted = formatted.trimEnd()
 			append(" {\n")
@@ -330,7 +344,9 @@ function format_css(css) {
 }
 function get_shared_source() {
 	const parameters = new URLSearchParams(window.location.hash.slice(1))
-	if (!parameters.has("code")) return null
+	if (!parameters.has("code")) {
+		return null
+	}
 	const source = parameters.get("code") ?? ""
 	return source.length <= 100_000 ? source : null
 }
@@ -338,11 +354,17 @@ function handle_divider_keydown(event) {
 	const amount = event.shiftKey ? 5 : 1
 	const current = stacked_layout.matches ? vertical_split : horizontal_split
 	let next = current
-	if (event.key === "Home") next = 25
-	else if (event.key === "End") next = 75
-	else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next -= amount
-	else if (event.key === "ArrowRight" || event.key === "ArrowDown") next += amount
-	else return
+	if (event.key === "Home") {
+		next = 25
+	} else if (event.key === "End") {
+		next = 75
+	} else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+		next -= amount
+	} else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+		next += amount
+	} else {
+		return
+	}
 	event.preventDefault()
 	set_split(next)
 }
@@ -372,7 +394,9 @@ function handle_editor_keydown(event) {
 	if (event.shiftKey) {
 		const line_start = value.lastIndexOf("\n", start - 1) + 1
 		const removable = value.slice(line_start, line_start + 2).match(/^(?:\t| {1,2})/)?.[0] ?? ""
-		if (!removable) return
+		if (!removable) {
+			return
+		}
 		event.preventDefault()
 		editor.setRangeText(
 			"",
@@ -390,7 +414,9 @@ function handle_editor_keydown(event) {
 }
 function initial_source() {
 	const shared = get_shared_source()
-	if (shared !== null) return shared
+	if (shared !== null) {
+		return shared
+	}
 	return read_storage(STORAGE.source) ?? EXAMPLES.profile
 }
 function on_editor_input() {
@@ -409,7 +435,9 @@ function on_editor_input() {
 }
 function read_number(key, fallback) {
 	const stored = read_storage(key)
-	if (stored === null) return fallback
+	if (stored === null) {
+		return fallback
+	}
 	const value = Number(stored)
 	return Number.isFinite(value) ? clamp(value, 25, 75) : fallback
 }
@@ -443,7 +471,9 @@ function render() {
 	)
 }
 function resize_from_pointer(event) {
-	if (!is_dragging) return
+	if (!is_dragging) {
+		return
+	}
 	const bounds = workspace.getBoundingClientRect()
 	const percentage = stacked_layout.matches
 		? (event.clientY - bounds.top) / bounds.height * 100
@@ -454,7 +484,9 @@ function resize_from_pointer(event) {
 // scripts and handlers are removed mostly so a typo cannot lock up the tab.
 function sanitize_document(source) {
 	const doc = new DOMParser().parseFromString(source, "text/html")
-	for (const blocked of doc.querySelectorAll("script, iframe, object, embed, base, meta")) blocked.remove()
+	for (const blocked of doc.querySelectorAll("script, iframe, object, embed, base, meta")) {
+		blocked.remove()
+	}
 	for (const element of doc.querySelectorAll("*")) {
 		for (const attribute of [ ...element.attributes ]) {
 			const name = attribute.name.toLowerCase()
@@ -538,7 +570,9 @@ function show_toast(message, mode = "default") {
 	toast_timer = window.setTimeout(() => toast.classList.remove("is-visible"), 2200)
 }
 function stop_dragging(event) {
-	if (!is_dragging) return
+	if (!is_dragging) {
+		return
+	}
 	is_dragging = false
 	divider.classList.remove("is-dragging")
 	if (event.pointerId !== undefined && divider.hasPointerCapture(event.pointerId)) {
@@ -582,7 +616,9 @@ async function write_clipboard(text) {
 	helper.select()
 	const copied = document.execCommand("copy")
 	helper.remove()
-	if (!copied) throw new Error("Clipboard is unavailable")
+	if (!copied) {
+		throw new Error("Clipboard is unavailable")
+	}
 }
 function write_storage(key, value) {
 	try {
@@ -595,10 +631,17 @@ window.addEventListener(
 	"message",
 	event => {
 		const data = event.data
-		if (event.source !== preview_frames[1 - active_frame].contentWindow) return
-		if (!data || typeof data !== "object" || data.id !== render_id) return
-		if (data.type === "click-css:css") finish_render(typeof data.css === "string" ? data.css : "")
-		else if (data.type === "click-css:error") fail_render("Click CSS failed to load in the preview.")
+		if (event.source !== preview_frames[1 - active_frame].contentWindow) {
+			return
+		}
+		if (!data || typeof data !== "object" || data.id !== render_id) {
+			return
+		}
+		if (data.type === "click-css:css") {
+			finish_render(typeof data.css === "string" ? data.css : "")
+		} else if (data.type === "click-css:error") {
+			fail_render("Click CSS failed to load in the preview.")
+		}
 	}
 )
 editor.addEventListener("input", on_editor_input)
@@ -616,7 +659,9 @@ example_select.addEventListener(
 	"change",
 	() => {
 		const key = example_select.value
-		if (!(key in EXAMPLES)) return
+		if (!(key in EXAMPLES)) {
+			return
+		}
 		set_editor_source(EXAMPLES[key], key)
 	}
 )
@@ -645,7 +690,9 @@ for (const tab of [ preview_tab, css_tab ]) {
 	tab.addEventListener(
 		"keydown",
 		event => {
-			if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return
+			if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+				return
+			}
 			event.preventDefault()
 			activate_output(tab === preview_tab ? "css" : "preview", true)
 		}
@@ -676,7 +723,9 @@ window.addEventListener(
 stacked_layout.addEventListener("change", update_divider_orientation)
 const source = initial_source()
 const matching_example = find_matching_example(source)
-if (matching_example !== "custom") active_example = matching_example
+if (matching_example !== "custom") {
+	active_example = matching_example
+}
 editor.value = source
 example_select.value = matching_example
 update_line_numbers()

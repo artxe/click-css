@@ -54,11 +54,17 @@ function check_is_open(cname) {
 	let depth = 0
 	for (let i = 0; i < cname.length; i++) {
 		const c = cname[i]
-		if (c == "\\") i++
-		else if (quote) quote = c == quote ? "" : quote
-		else if (c == "'" || c == "\"") quote = c
-		else if (c == "(" || c == "[" || c == "{") depth++
-		else if ((c == ")" || c == "]" || c == "}") && depth-- < 1) return true
+		if (c == "\\") {
+			i++
+		} else if (quote) {
+			quote = c == quote ? "" : quote
+		} else if (c == "'" || c == "\"") {
+			quote = c
+		} else if (c == "(" || c == "[" || c == "{") {
+			depth++
+		} else if ((c == ")" || c == "]" || c == "}") && depth-- < 1) {
+			return true
+		}
 	}
 	return quote || depth || cname[cname.length - 1] == "\\"
 }
@@ -84,12 +90,19 @@ function colorize(css) {
 			)
 			start = i + 1
 			colon = -1
-		} else if (c == "\\") i++
-		else if (quote) quote = c == quote ? "" : quote
-		else if (c == "'" || c == "\"") quote = c
-		else if (c == "(" || c == "[") depth++
-		else if (c == ")" || c == "]") depth--
-		else if (c == ":" && !depth && colon < 0) colon = i
+		} else if (c == "\\") {
+			i++
+		} else if (quote) {
+			quote = c == quote ? "" : quote
+		} else if (c == "'" || c == "\"") {
+			quote = c
+		} else if (c == "(" || c == "[") {
+			depth++
+		} else if (c == ")" || c == "]") {
+			depth--
+		} else if (c == ":" && !depth && colon < 0) {
+			colon = i
+		}
 	}
 	return out
 }
@@ -119,7 +132,9 @@ function compile_declaration(cname) {
  */
 function compile_media(cname) {
 	const i = cname.indexOf("@", 2)
-	if (i < 0 || i == cname.length - 1) return ""
+	if (i < 0 || i == cname.length - 1) {
+		return ""
+	}
 	const query = cname.slice(1, i)
 	const name = cname.slice(i + 1)
 	return parse_query(query) + "&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -153,9 +168,13 @@ function compile_selector(cname) {
  */
 function get_priority(cname) {
 	let index = cname.length - 1
-	if (cname[index] != "!") return ""
+	if (cname[index] != "!") {
+		return ""
+	}
 	let prefix = "[class]"
-	while (cname[--index] == "!") prefix += "[class]"
+	while (cname[--index] == "!") {
+		prefix += "[class]"
+	}
 	return prefix ? `<span style="color:#d7ba7d;">${prefix}</span> ` : ""
 }
 /**
@@ -167,12 +186,19 @@ function get_selector_end(cname) {
 	let depth = 0
 	for (let i = 0; i < cname.length; i++) {
 		const c = cname[i]
-		if (c == "\\") i++
-		else if (quote) quote = c == quote ? "" : quote
-		else if (c == "'" || c == "\"") quote = c
-		else if (c == "(" || c == "[") depth++
-		else if (c == ")" || c == "]") depth--
-		else if (c == "/" && !depth) return i
+		if (c == "\\") {
+			i++
+		} else if (quote) {
+			quote = c == quote ? "" : quote
+		} else if (c == "'" || c == "\"") {
+			quote = c
+		} else if (c == "(" || c == "[") {
+			depth++
+		} else if (c == ")" || c == "]") {
+			depth--
+		} else if (c == "/" && !depth) {
+			return i
+		}
 	}
 	return -1
 }
@@ -208,7 +234,7 @@ function parse_query(query) {
 function parse_value(cname) {
 	let i = cname.length
 	if (cname[--i] == "!") {
-		while (cname[--i] == "!");
+		while (cname[--i] == "!") { }
 		cname = cname.slice(0, i + 1)
 	}
 	return colorize(

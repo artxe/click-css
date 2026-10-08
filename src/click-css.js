@@ -249,11 +249,17 @@
 		let depth = 0
 		for (let i = 0; i < cname.length; i++) {
 			let c = cname[i]
-			if (c == "\\") i++
-			else if (quote) quote = c == quote ? "" : quote
-			else if (c == "'" || c == "\"") quote = c
-			else if (c == "(" || c == "[" || c == "{") depth++
-			else if ((c == ")" || c == "]" || c == "}") && depth-- < 1) return true
+			if (c == "\\") {
+				i++
+			} else if (quote) {
+				quote = c == quote ? "" : quote
+			} else if (c == "'" || c == "\"") {
+				quote = c
+			} else if (c == "(" || c == "[" || c == "{") {
+				depth++
+			} else if ((c == ")" || c == "]" || c == "}") && depth-- < 1) {
+				return true
+			}
 		}
 		return quote || depth || cname[cname.length - 1] == "\\"
 	}
@@ -262,10 +268,16 @@
 	 * @returns {void}
 	 */
 	function collect_unique_top_nodes(target) {
-		if (target.nodeType != 1 || pending_elements.has(target)) return
+		if (target.nodeType != 1 || pending_elements.has(target)) {
+			return
+		}
 		for (let e of pending_elements) {
-			if (e.contains(target)) return
-			if (target.contains(e)) pending_elements.delete(e)
+			if (e.contains(target)) {
+				return
+			}
+			if (target.contains(e)) {
+				pending_elements.delete(e)
+			}
 		}
 		pending_elements.add(target)
 	}
@@ -275,9 +287,13 @@
 	 */
 	function compile_cname(cname) {
 		if (check_has_value_regex.test(cname) && !check_is_open(cname)) {
-			if (check_is_declaration(cname)) plain_style += get_priority(cname) + "." + compile_declaration(cname)
-			else if (cname[0] == "@") compile_media(cname)
-			else plain_style += get_priority(cname) + "." + compile_selector(cname)
+			if (check_is_declaration(cname)) {
+				plain_style += get_priority(cname) + "." + compile_declaration(cname)
+			} else if (cname[0] == "@") {
+				compile_media(cname)
+			} else {
+				plain_style += get_priority(cname) + "." + compile_selector(cname)
+			}
 		}
 	}
 	/**
@@ -293,7 +309,9 @@
 	 */
 	function compile_media(cname) {
 		let i = cname.indexOf("@", 2)
-		if (i < 0 || i == cname.length - 1) return
+		if (i < 0 || i == cname.length - 1) {
+			return
+		}
 		let query = cname.slice(1, i)
 		let name = cname.slice(i + 1)
 		media_style += parse_query(query) + get_priority(name) + ".\\@" + escape(query) + "\\@"
@@ -328,7 +346,9 @@
 	 */
 	function detect_subtree_classes(target) {
 		detect_class_attribute(target)
-		for (let e of target.querySelectorAll("[class]")) detect_class_attribute(e)
+		for (let e of target.querySelectorAll("[class]")) {
+			detect_class_attribute(e)
+		}
 	}
 	/**
 	 * @param {string} cname
@@ -336,9 +356,13 @@
 	 */
 	function get_priority(cname) {
 		let i = cname.length - 1
-		if (cname[i] != "!") return ""
+		if (cname[i] != "!") {
+			return ""
+		}
 		let prefix = "[class]"
-		while (cname[--i] == "!") prefix += "[class]"
+		while (cname[--i] == "!") {
+			prefix += "[class]"
+		}
 		return prefix
 	}
 	/**
@@ -350,12 +374,19 @@
 		let depth = 0
 		for (let i = 0; i < cname.length; i++) {
 			let c = cname[i]
-			if (c == "\\") i++
-			else if (quote) quote = c == quote ? "" : quote
-			else if (c == "'" || c == "\"") quote = c
-			else if (c == "(" || c == "[") depth++
-			else if (c == ")" || c == "]") depth--
-			else if (c == "/" && !depth) return i
+			if (c == "\\") {
+				i++
+			} else if (quote) {
+				quote = c == quote ? "" : quote
+			} else if (c == "'" || c == "\"") {
+				quote = c
+			} else if (c == "(" || c == "[") {
+				depth++
+			} else if (c == ")" || c == "]") {
+				depth--
+			} else if (c == "/" && !depth) {
+				return i
+			}
 		}
 		return -1
 	}
@@ -391,7 +422,7 @@
 	function parse_value(cname) {
 		let i = cname.length
 		if (cname[--i] == "!") {
-			while (cname[--i] == "!");
+			while (cname[--i] == "!") { }
 			cname = cname.slice(0, i + 1)
 		}
 		return replace_outside_parens(
@@ -502,10 +533,16 @@
 	new MO(
 		mr_list => {
 			let size = classes.size
-			for (let mr of mr_list) pending_elements.add(/** @type {Element} */(mr.target)/**/)
-			for (let e of pending_elements) detect_class_attribute(e)
+			for (let mr of mr_list) {
+				pending_elements.add(/** @type {Element} */(mr.target)/**/)
+			}
+			for (let e of pending_elements) {
+				detect_class_attribute(e)
+			}
 			pending_elements.clear()
-			if (classes.size != size) click()
+			if (classes.size != size) {
+				click()
+			}
 		}
 	).observe(
 		dom.documentElement,
@@ -514,10 +551,16 @@
 	new MO(
 		mr_list => {
 			let size = classes.size
-			for (let mr of mr_list) collect_unique_top_nodes(/** @type {Element} */(mr.target)/**/)
-			for (let e of pending_elements) detect_subtree_classes(e)
+			for (let mr of mr_list) {
+				collect_unique_top_nodes(/** @type {Element} */(mr.target)/**/)
+			}
+			for (let e of pending_elements) {
+				detect_subtree_classes(e)
+			}
 			pending_elements.clear()
-			if (classes.size != size) click()
+			if (classes.size != size) {
+				click()
+			}
 		}
 	).observe(
 		dom.documentElement,
