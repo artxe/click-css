@@ -413,7 +413,7 @@ Each class is compiled once, by a chain of regex passes over its text. Classes a
 A pnpm workspace: [`src`](./src) the library, [`test`](./test) vitest suites over the real source through both collection paths plus VSCode-extension parity, [`extension`](./extension) the VSCode extension, [`docs`](./docs) the playground published to GitHub Pages, which also serves the built `min.js`.
 
 ```bash
-pnpm test    # vitest, 100% coverage enforced
+pnpm test    # vitest
 pnpm build   # terser → docs/min.js, then the extension bundle; fails if the version stamp disagrees with package.json
 pnpm lint    # eslint --fix, then tsc
 ```

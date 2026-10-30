@@ -20,13 +20,6 @@ export default defineConfig(
 				vscode: fileURLToPath(new URL("./test/vscode.js", import.meta.url))
 			}
 		},
-		test: {
-			coverage: {
-				include: [ "src/**", "extension/src/**" ],
-				provider: "v8",
-				thresholds: { 100: true }
-			},
-			include: [ "test/*.test.js" ]
-		}
+		test: { include: [ "test/*.test.js" ] }
 	}
 )

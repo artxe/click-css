@@ -221,9 +221,9 @@
 	"devDependencies": {
 		"@rollup/plugin-node-resolve": "^16.0.3",
 		"@types/vscode": "1.100.0",
-		"@vscode/vsce": "^4.0.0",
+		"@vscode/vsce": "^4.1.0",
 		"dom-eater": "^1.0.1",
-		"rollup": "^4.64.6"
+		"rollup": "^4.66.0"
 	},
 	"displayName": "Intellisense Click CSS",
 	"engines": { "vscode": "^1.100.0" },
