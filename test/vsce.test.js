@@ -381,15 +381,10 @@ describe(
 	"extension file routing",
 	() => {
 		it(
-			"a file with no extension is not parsed",
-			() => {
-				assert.deepEqual(parse_dom("Makefile", "<p class=\"a\"></p>"), [])
-			}
-		)
-		it(
-			"a file with no extension is not parsed when a folder name has a dot",
+			"a file with no extension is not parsed, even when a folder name has a dot",
 			() => {
 				for (const file_name of [
+					"Makefile",
 					"/home/first.last/site/Makefile",
 					"C:\\Users\\first.last\\site\\LICENSE"
 				]) {

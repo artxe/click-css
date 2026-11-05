@@ -202,7 +202,7 @@ export function prelude(css) {
  * @param {string} text
  * @returns {string}
  */
-export function serialize_attribute(text) {
+function serialize_attribute(text) {
 	return text
 		.replace(/&/g, "&amp;")
 		.replace(/ /g, "&nbsp;")

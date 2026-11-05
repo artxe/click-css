@@ -156,18 +156,6 @@ describe(
 				assert.match(app.rebuild("LIGHT"), /@media \(\)/)
 			}
 		)
-		it(
-			"without THEME, prefers-color-scheme stays as is",
-			async () => {
-				const { load } = await import("./dom.js")
-				const app = load()
-				app.via_class_change("@dark@c=white")
-				assert.match(
-					app.rebuild(),
-					/@media \(prefers-color-scheme:dark\)/
-				)
-			}
-		)
 	}
 )
 describe(

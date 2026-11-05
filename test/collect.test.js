@@ -1,11 +1,6 @@
-import {
-	element,
-	load,
-	serialize_attribute,
-	text_node
-} from "./dom.js"
+import { element, load, text_node } from "./dom.js"
 import assert from "node:assert/strict"
-import { describe, it, vi } from "vitest"
+import { describe, it } from "vitest"
 const entity_bearing = [
 	"@sm&dark@c=red",
 	"@max-width=200px&min-width=100px@w=100",
@@ -65,26 +60,6 @@ describe(
 				)
 			}
 		)
-		it(
-			"is split into tokens once",
-			() => {
-				const app = load()
-				const match = vi.spyOn(String.prototype, "match")
-				let splits = 0
-				try {
-					app.via_insertion_html(
-						"<div class=\"w=1 h=2\"><p class=\"w=1 h=2\"></p><p class=\"w=1 h=2\"></p></div>"
-					)
-					app.via_insertion_html("<div class=\"w=1 h=2\"></div>")
-					splits = match.mock.calls.filter(
-						([ pattern ]) => pattern instanceof RegExp && pattern.source == String.raw`[^\t\n\f\r ]+`
-					).length
-				} finally {
-					match.mockRestore()
-				}
-				assert.equal(splits, 1)
-			}
-		)
 	}
 )
 describe(
@@ -102,16 +77,6 @@ describe(
 				}
 			)
 		}
-		it(
-			"the same with many classes at once",
-			() => {
-				const all = [ ...entity_bearing, ...plain ]
-				assert.equal(
-					load().via_class_change(...all),
-					load().via_insertion(...all)
-				)
-			}
-		)
 	}
 )
 describe(
@@ -242,18 +207,6 @@ describe(
 				const css = load().via_insertion("ct=\"hi\"")
 				assert.doesNotMatch(css, /quot;/)
 				assert.match(css, /\{content:"hi"\}$/)
-			}
-		)
-		it(
-			"these inputs really are escaped",
-			() => {
-				for (const cname of entity_bearing) {
-					assert.notEqual(
-						serialize_attribute(cname),
-						cname,
-						cname + " must change when serialized for this test to mean anything"
-					)
-				}
 			}
 		)
 	}

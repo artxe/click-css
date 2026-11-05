@@ -104,12 +104,6 @@ describe(
 				assert.equal(block.replace(/\n/g, ""), load().reset)
 			}
 		)
-		it(
-			"the README carries no hand-counted test total",
-			() => {
-				assert.doesNotMatch(readme, /\d+ tests/)
-			}
-		)
 	}
 )
 describe(

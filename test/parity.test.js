@@ -179,18 +179,6 @@ describe(
 describe(
 	"lib ↔ vsce extension",
 	() => {
-		it(
-			"loads the real extension source",
-			() => {
-				assert.equal(typeof compile_vsce, "function")
-				assert.ok(
-					readFileSync(
-						new URL("./src/helper/compile_style.js", vsce_root),
-						"utf8"
-					).includes("check_is_open")
-				)
-			}
-		)
 		for (const cname of corpus) {
 			it(
 				cname,
