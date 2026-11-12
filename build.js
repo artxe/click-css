@@ -35,5 +35,5 @@ for (const target of targets) {
 }
 process.stdout.write(
 	`click-css v${version}  ${code.length} B  (${gzipSync(code).length} B gzip)\n`
-	+ targets.map(t => "  -> " + t).join("\n") + "\n"
+		+ targets.map(t => "  -> " + t).join("\n") + "\n"
 )

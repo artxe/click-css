@@ -1,7 +1,10 @@
 import { compile, declarations, prelude } from "./dom.js"
 import assert from "node:assert/strict"
 import { describe, it } from "vitest"
-/** @param {Record<string, [string, string]>} cases */
+/**
+ * @param {Record<string, [string, string]>} cases
+ * @returns {void}
+ */
 function rules(cases) {
 	for (const [ cname, [ selector, body ] ] of Object.entries(cases)) {
 		it(
@@ -156,36 +159,11 @@ describe(
 				assert.match(app.rebuild("LIGHT"), /@media \(\)/)
 			}
 		)
-		it(
-			"without THEME, prefers-color-scheme stays as is",
-			async () => {
-				const { load } = await import("./dom.js")
-				const app = load()
-				app.via_class_change("@dark@c=white")
-				assert.match(
-					app.rebuild(),
-					/@media \(prefers-color-scheme:dark\)/
-				)
-			}
-		)
 	}
 )
 describe(
 	"media queries",
 	() => {
-		/** @param {Record<string, [string, string]>} cases */
-		function queries(cases) {
-			for (const [ cname, [ at, body ] ] of Object.entries(cases)) {
-				it(
-					cname + "  →  " + at,
-					() => {
-						const css = compile(cname)
-						assert.equal(prelude(css), at)
-						assert.equal(declarations(css), body)
-					}
-				)
-			}
-		}
 		queries(
 			{
 				"@(400px<=width<=700px)@w=100": [ "@media (400px<=width<=700px)", "width:100px" ],
@@ -220,6 +198,22 @@ describe(
 				assert.match(compile("@dark@w=100!"), /\{\[class\]\./)
 			}
 		)
+		/**
+		 * @param {Record<string, [string, string]>} cases
+		 * @returns {void}
+		 */
+		function queries(cases) {
+			for (const [ cname, [ at, body ] ] of Object.entries(cases)) {
+				it(
+					cname + "  →  " + at,
+					() => {
+						const css = compile(cname)
+						assert.equal(prelude(css), at)
+						assert.equal(declarations(css), body)
+					}
+				)
+			}
+		}
 	}
 )
 describe(

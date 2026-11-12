@@ -187,7 +187,7 @@
 	/** @type {RegExp} */
 	let check_has_value_regex = RE(
 		".[:=].|"
-		+ [ ...shorthand_for_values.keys() ].join("|")
+			+ [ ...shorthand_for_values.keys() ].join("|")
 	)
 	let split_cname_regex = /[^\t\n\f\r ]+/g
 	let dark_theme_regex = /prefers-color-scheme:dark/g
@@ -197,17 +197,17 @@
 	/** @type {RegExp} */
 	let replace_media_condition_regex = RE(
 		"(^|[ ,])("
-		+ [ ...shorthand_for_media_condition.keys() ].join("|")
-		+ ")(?=[ ,]|$)",
+			+ [ ...shorthand_for_media_condition.keys() ].join("|")
+			+ ")(?=[ ,]|$)",
 		"g"
 	)
 	/** @type {RegExp} */
 	let replace_shorthand_regex = RE(
 		"(^|;)(?:("
-		+ [ ...shorthand_for_properties.keys() ].join("|")
-		+ ")(?=:)|("
-		+ [ ...shorthand_for_values.keys() ].join("|")
-		+ ")(?=;|!|$))",
+			+ [ ...shorthand_for_properties.keys() ].join("|")
+			+ ")(?=:)|("
+			+ [ ...shorthand_for_values.keys() ].join("|")
+			+ ")(?=;|!|$))",
 		"g"
 	)
 	let replace_escape_regex = /\\=/g

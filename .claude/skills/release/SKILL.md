@@ -14,7 +14,7 @@ description: Move a Click CSS version number, whether the library/extension rele
 5. `pnpm build` regenerates `docs/min.js` and the extension bundle; `build.js` throws if the stamp and the root `package.json` disagree
 6. `pnpm test`: `build.test.js` re-asserts the stamp and that `min.js` compiles like the source
 
-`docs/min.js` is committed; the `.vsix` is not. The commits since the last version commit fold into one (`git reset --soft <last version commit>`, then commit): `v<new>  - <one-line summary> https://github.com/Artxe/click-css/blob/main/CHANGELOG.md#<new without dots>`.
+`docs/min.js` is committed; the `.vsix` is not. The commits since the last version commit fold into one (`git reset --soft <last version commit>`, then commit with `git commit -F .tmp/<file>`): a message of three lines with no blank line between them, `v<new>`, ` - <one-line summary>` and `https://github.com/Artxe/click-css/blob/main/CHANGELOG.md#<new without dots>` (`git log --format=%s` shows them joined on one line).
 
 ## Minimum VSCode version
 

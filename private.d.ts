@@ -18,3 +18,21 @@ type ElementStub = {
 	querySelectorAll: (selector: string) => ElementStub[]
 }
 type MutationRecordStub = { target: ElementStub }
+type AstNode = ReturnType<typeof import("./extension/src/helper/parse_dom.js").default>[number]
+type DisposableStub = { dispose: () => void }
+type TextDocumentStub = {
+	fileName: string
+	getText: () => string
+	offsetAt: (position: { offset: number }) => number
+	positionAt: (offset: number) => { offset: number }
+}
+type DecorationStub = {
+	hoverMessage: { value: string }
+	range: { end: { offset: number }, start: { offset: number } }
+}
+type ProviderStub = {
+	provideCompletionItems: (
+		document: TextDocumentStub,
+		position: { offset: number }
+	) => { insertText: string | undefined }[] | undefined
+}

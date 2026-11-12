@@ -10,7 +10,7 @@ const replace_default_unit_inner_regex = /(?:^|[ ,])-?(?:\d*\.)?\d+(?=[ ,!]|$)/g
 const replace_default_unit_regex = /((?:^|;|-)(?:basis|block|border|bottom|gap|grid-(?:auto|template)-(?:columns|rows)|(?<!line-)height|indent|inline|inset(?:-[a-z]+)*|left|(?:margin|padding)(?:-[a-z]+)*|offset|origin|outline|perspective|position|radius|right|shadow|size|spacing|top|translate|(?<!stroke-)width):)(.+?)(?=;|$)/g
 const check_has_value_regex = RE(
 	".[:=].|"
-	+ [ ...shorthand_for_values.keys() ].join("|")
+		+ [ ...shorthand_for_values.keys() ].join("|")
 )
 const replace_and_regex = /&/g
 const escape_less_than_regex = /</g
@@ -18,20 +18,20 @@ const replace_colon_regex = /\\?=/g
 const replace_condition_regex = /[^ ,]+(?<![<>=\\])=[^ ,]+/g
 const replace_media_condition_regex = RE(
 	"(^|[ ,])("
-	+ [
-		...shorthand_for_media_condition.keys()
-	].join("|")
-	+ ")(?=[ ,]|$)",
+		+ [
+			...shorthand_for_media_condition.keys()
+		].join("|")
+		+ ")(?=[ ,]|$)",
 	"g"
 )
 const replace_shorthand_regex = RE(
 	"(^|;)(?:("
-	+ [
-		...shorthand_for_properties.keys()
-	].join("|")
-	+ ")(?=:)|("
-	+ [ ...shorthand_for_values.keys() ].join("|")
-	+ ")(?=;|!|$))",
+		+ [
+			...shorthand_for_properties.keys()
+		].join("|")
+		+ ")(?=:)|("
+		+ [ ...shorthand_for_values.keys() ].join("|")
+		+ ")(?=;|!|$))",
 	"g"
 )
 const replace_escape_regex = /\\=/g

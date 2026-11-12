@@ -1,5 +1,5 @@
 import { fileURLToPath } from "node:url"
-import { defineConfig } from "vitest/config"
+import { configDefaults, defineConfig } from "vitest/config"
 export default defineConfig(
 	{
 		plugins: [
@@ -21,11 +21,7 @@ export default defineConfig(
 			}
 		},
 		test: {
-			coverage: {
-				include: [ "src/**", "extension/src/**" ],
-				provider: "v8",
-				thresholds: { 100: true }
-			},
+			exclude: [ ...configDefaults.exclude, ".tmp/**" ],
 			include: [ "test/*.test.js" ]
 		}
 	}

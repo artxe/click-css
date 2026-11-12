@@ -10,7 +10,7 @@ export function compile(...names) {
 	if (a !== b) {
 		throw Error(
 			"the collection paths diverged\n  class change: " + JSON.stringify(a)
-			+ "\n  insertion: " + JSON.stringify(b)
+				+ "\n  insertion: " + JSON.stringify(b)
 		)
 	}
 	return a
@@ -70,15 +70,15 @@ export function escape(value) {
 			out += "�"
 		} else if (
 			(c >= 0x1 && c <= 0x1f) || c === 0x7f
-			|| (i === 0 && c >= 0x30 && c <= 0x39)
-			|| (i === 1 && c >= 0x30 && c <= 0x39 && s.charCodeAt(0) === 0x2d)
+				|| (i === 0 && c >= 0x30 && c <= 0x39)
+				|| (i === 1 && c >= 0x30 && c <= 0x39 && s.charCodeAt(0) === 0x2d)
 		) {
 			out += "\\" + c.toString(16) + " "
 		} else if (i === 0 && c === 0x2d && s.length === 1) {
 			out += "\\" + s[i]
 		} else if (
 			c >= 0x80 || c === 0x2d || c === 0x5f
-			|| (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5a) || (c >= 0x61 && c <= 0x7a)
+				|| (c >= 0x30 && c <= 0x39) || (c >= 0x41 && c <= 0x5a) || (c >= 0x61 && c <= 0x7a)
 		) {
 			out += s[i]
 		} else {
@@ -138,9 +138,6 @@ export function load(source) {
 	}
 	const build = globalThis.click
 	const reset = style.textContent
-	function added() {
-		return style.textContent.slice(reset.length)
-	}
 	const on_attribute = /** @type {(records: MutationRecordStub[]) => void} */(observers[0])/**/
 	const on_child_list = /** @type {(records: MutationRecordStub[]) => void} */(observers[1])/**/
 	return {
@@ -174,6 +171,10 @@ export function load(source) {
 			return added()
 		}
 	}
+	/** @returns {string} */
+	function added() {
+		return style.textContent.slice(reset.length)
+	}
 }
 /**
  * @param {string} html
@@ -202,7 +203,7 @@ export function prelude(css) {
  * @param {string} text
  * @returns {string}
  */
-export function serialize_attribute(text) {
+function serialize_attribute(text) {
 	return text
 		.replace(/&/g, "&amp;")
 		.replace(/ /g, "&nbsp;")
@@ -210,9 +211,7 @@ export function serialize_attribute(text) {
 		.replace(/>/g, "&gt;")
 		.replace(/"/g, "&quot;")
 }
-/**
- * @returns {ElementStub}
- */
+/** @returns {ElementStub} */
 export function text_node() {
 	return (
 		{

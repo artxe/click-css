@@ -6,7 +6,6 @@ export default [
 		ignores: [
 			".claude/settings*.json",
 			".tmp/**",
-			"coverage/**",
 			"docs/min.js",
 			"extension/out/**"
 		]
