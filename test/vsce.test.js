@@ -18,35 +18,23 @@ const manifest = JSON.parse(
 for (const section of manifest.contributes.configuration) {
 	Object.assign(configuration, section.properties)
 }
-/** @typedef {ReturnType<typeof import("../extension/src/helper/parse_dom.js").default>[number]} AstNode */
-/** @typedef {ReturnType<typeof text_document>} TextDocument */
-/** @typedef {{ hoverMessage: MarkdownString, range: Range }} Decoration */
-/** @typedef {{ dispose: () => void }} Disposable */
-/**
- * @typedef {{
- *   provideCompletionItems: (
- *     document: TextDocument,
- *     position: { offset: number }
- *   ) => CompletionItem[] | undefined
- * }} Provider
- */
 /**
  * @type {{
- *   document: TextDocument,
+ *   document: TextDocumentStub,
  *   setDecorations: (
  *     decorator: { index: number },
- *     ranges: (Decoration | Range)[]
+ *     ranges: (DecorationStub | Range)[]
  *   ) => void
  * } | undefined}
  */
 let active_editor
-/** @type {Provider[]} */
+/** @type {ProviderStub[]} */
 let providers = []
 /** @type {{ index: number }[]} */
 let decorators = []
 /** @type {((editor: typeof active_editor) => void)[]} */
 let editor_listeners = []
-/** @type {((event: { document: TextDocument }) => void)[]} */
+/** @type {((event: { document: TextDocumentStub }) => void)[]} */
 let document_listeners = []
 class Range {
 	/**
@@ -82,8 +70,8 @@ const vscode = {
 	languages: {
 		/**
 		 * @param {string[]} _
-		 * @param {Provider} provider
-		 * @returns {Disposable}
+		 * @param {ProviderStub} provider
+		 * @returns {DisposableStub}
 		 */
 		registerCompletionItemProvider: (_, provider) => {
 			providers.push(provider)
@@ -101,7 +89,7 @@ const vscode = {
 		},
 		/**
 		 * @param {(editor: typeof active_editor) => void} listener
-		 * @returns {Disposable}
+		 * @returns {DisposableStub}
 		 */
 		onDidChangeActiveTextEditor: listener => {
 			editor_listeners.push(listener)
@@ -116,8 +104,8 @@ const vscode = {
 					.default
 		}),
 		/**
-		 * @param {(event: { document: TextDocument }) => void} listener
-		 * @returns {Disposable}
+		 * @param {(event: { document: TextDocumentStub }) => void} listener
+		 * @returns {DisposableStub}
 		 */
 		onDidChangeTextDocument: listener => {
 			document_listeners.push(listener)
@@ -133,6 +121,7 @@ const { default: parse_dom } = await import(
 /**
  * @param {string} file_name
  * @param {string} text
+ * @returns {TextDocumentStub}
  */
 function text_document(file_name, text) {
 	return ({
@@ -145,9 +134,12 @@ function text_document(file_name, text) {
 	})
 }
 let activate_count = 0
-/** @param {string} path */
+/**
+ * @param {string} path
+ * @returns {Promise<void>}
+ */
 async function activate(path) {
-	/** @type {{ default: (context: { subscriptions: Disposable[] }) => void }} */
+	/** @type {{ default: (context: { subscriptions: DisposableStub[] }) => void }} */
 	const module = await import(
 		`${new URL(path, src_root).href}?${++activate_count}`
 	)
@@ -156,6 +148,7 @@ async function activate(path) {
 /**
  * @param {string} file_name
  * @param {string} text
+ * @returns {Promise<{ media: (string | undefined)[] | undefined, properties: (string | undefined)[] | undefined }>}
  */
 async function complete(file_name, text) {
 	providers = []
@@ -172,30 +165,22 @@ async function complete(file_name, text) {
 /**
  * @param {string} file_name
  * @param {string} text
+ * @returns {Promise<{ hover: string[], media: string[], property: string[], selector: string[], tokens: string[], value: string[] }>}
  */
 async function highlight(file_name, text) {
-	/** @type {Map<number, (Decoration | Range)[]>} */
+	/** @type {Map<number, (DecorationStub | Range)[]>} */
 	let decorations = new Map()
 	decorators = []
 	active_editor = {
 		document: text_document(file_name, text),
 		/**
 		 * @param {{ index: number }} decorator
-		 * @param {(Decoration | Range)[]} ranges
+		 * @param {(DecorationStub | Range)[]} ranges
 		 */
 		setDecorations: (decorator, ranges) => decorations.set(decorator.index, ranges)
 	}
 	await activate("./extensions/highlighter.js")
-	/**
-	 * @param {number} index
-	 * @returns {string[]}
-	 */
-	function slices(index) {
-		return /** @type {Range[]} */(decorations.get(index) ?? [])/**/.map(
-			range => text.slice(range.start.offset, range.end.offset)
-		)
-	}
-	let tokens = /** @type {Decoration[]} */(decorations.get(0) ?? [])/**/
+	let tokens = /** @type {DecorationStub[]} */(decorations.get(0) ?? [])/**/
 	return {
 		hover: tokens.map(
 			item => item.hoverMessage.value
@@ -210,6 +195,15 @@ async function highlight(file_name, text) {
 			item => text.slice(item.range.start.offset, item.range.end.offset)
 		),
 		value: slices(4)
+	}
+	/**
+	 * @param {number} index
+	 * @returns {string[]}
+	 */
+	function slices(index) {
+		return /** @type {Range[]} */(decorations.get(index) ?? [])/**/.map(
+			range => text.slice(range.start.offset, range.end.offset)
+		)
 	}
 }
 /**
@@ -381,15 +375,10 @@ describe(
 	"extension file routing",
 	() => {
 		it(
-			"a file with no extension is not parsed",
-			() => {
-				assert.deepEqual(parse_dom("Makefile", "<p class=\"a\"></p>"), [])
-			}
-		)
-		it(
-			"a file with no extension is not parsed when a folder name has a dot",
+			"a file with no extension is not parsed, even when a folder name has a dot",
 			() => {
 				for (const file_name of [
+					"Makefile",
 					"/home/first.last/site/Makefile",
 					"C:\\Users\\first.last\\site\\LICENSE"
 				]) {
@@ -627,7 +616,7 @@ describe(
 				const result = await highlight(
 					"a.md",
 					"Load it in `<head>` as a classic `<script>`.\n\n"
-					+ "```html\n<p class=\"c=red\"></p>\n```\n"
+						+ "```html\n<p class=\"c=red\"></p>\n```\n"
 				)
 				assert.deepEqual(result.tokens, [ "c=red" ])
 			}
@@ -674,7 +663,7 @@ describe(
 				const result = await highlight(
 					"a.md",
 					"```html\n<p class=\"c=red\"></p><!-- open comment\n```\n\n"
-					+ "```html\n<p class=\"d=flex\"></p>\n```\n"
+						+ "```html\n<p class=\"d=flex\"></p>\n```\n"
 				)
 				assert.deepEqual(result.tokens, [ "c=red", "d=flex" ])
 			}
@@ -685,7 +674,7 @@ describe(
 				const result = await highlight(
 					"a.md",
 					"```html\n<input class=\"c=red\" value=\"open quote>\n```\n\n"
-					+ "```html\n<p class=\"d=flex\"></p>\n```\n"
+						+ "```html\n<p class=\"d=flex\"></p>\n```\n"
 				)
 				assert.deepEqual(result.tokens, [ "c=red", "d=flex" ])
 			}
@@ -696,7 +685,7 @@ describe(
 				const result = await highlight(
 					"a.md",
 					"```html\n<div class=\"c=red\">\n  <style>\n</div>\n```\n\n"
-					+ "```html\n<p class=\"d=flex\"></p>\n```\n"
+						+ "```html\n<p class=\"d=flex\"></p>\n```\n"
 				)
 				assert.deepEqual(result.tokens, [ "c=red", "d=flex" ])
 			}
@@ -707,8 +696,8 @@ describe(
 				const result = await highlight(
 					"a.md",
 					"```html\n<p class=\"c=red\"></p>\n```\n\n"
-					+ "```css\n.x { color: red }\n```\n\n"
-					+ "```html\n<p class=\"d=flex\"></p>\n```\n"
+						+ "```css\n.x { color: red }\n```\n\n"
+						+ "```html\n<p class=\"d=flex\"></p>\n```\n"
 				)
 				assert.deepEqual(result.tokens, [ "c=red", "d=flex" ])
 			}
@@ -756,15 +745,14 @@ describe(
 )
 /**
  * @param {string} text
+ * @returns {{ document: TextDocumentStub, setDecorations: (decorator: { index: number }) => void, updates: number[] }}
  */
 function make_editor(text) {
 	/** @type {number[]} */
 	const updates = []
 	return {
 		document: text_document("a.html", text),
-		/**
-		 * @param {{ index: number }} decorator
-		 */
+		/** @param {{ index: number }} decorator */
 		setDecorations: decorator => {
 			if (decorator.index == 0) {
 				updates.push(updates.length)
@@ -773,7 +761,10 @@ function make_editor(text) {
 		updates
 	}
 }
-/** @param {ReturnType<typeof make_editor> | undefined} editor */
+/**
+ * @param {ReturnType<typeof make_editor> | undefined} editor
+ * @returns {Promise<void>}
+ */
 async function start_highlighter(editor) {
 	editor_listeners = []
 	document_listeners = []
@@ -812,7 +803,7 @@ describe(
 				active_editor = editor
 				decorators = []
 				providers = []
-				/** @type {{ activate: (context: { subscriptions: Disposable[] }) => void }} */
+				/** @type {{ activate: (context: { subscriptions: DisposableStub[] }) => void }} */
 				const index = await import(new URL("./index.js", src_root).href)
 				index.activate({ subscriptions: [] })
 				assert.equal(providers.length, 2)

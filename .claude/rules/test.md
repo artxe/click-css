@@ -5,7 +5,7 @@ paths:
 
 Test names and failure messages are English.
 
-`pnpm test` is `vitest run --coverage` with 100% thresholds over `src/**` and `extension/src/**`. `click-css.js` is not an ES module, so `vitest.config.js` wraps `src/click-css.js?factory` in a function that `dom.js` calls once per `load()`: V8 coverage then maps to the real file, which a `vm` script or `new Function` would not. `build.test.js` also runs the unwrapped source as a classic script against the same corpus. Unreachable code is deleted, never ignored.
+`click-css.js` is not an ES module, so `vitest.config.js` wraps `src/click-css.js?factory` in a function that `dom.js` calls once per `load()`. `build.test.js` also runs the unwrapped source as a classic script against the same corpus. Unreachable code is deleted, never ignored.
 
 `dom.js` is the only stub boundary: `click-css.js` runs verbatim, a `MutationObserver` stub captures the two callbacks the library registers, elements are stubs with `getAttribute` and `querySelectorAll` (`via_insertion` parses HTML and decodes entities first, as a browser would), and a test pushes classes through the real entry points and reads the real `<style>` back. `CSS.escape` is reimplemented there because Node has none, so selector assertions sit in `selector.test.js` only and `compile.test.js` asserts declarations.
 

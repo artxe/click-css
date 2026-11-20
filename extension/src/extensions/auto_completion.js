@@ -10,57 +10,6 @@ import * as vscode from "vscode"
  * @returns {void}
  */
 export default context => {
-	/**
-	 * @param {vscode.TextDocument} document
-	 * @param {vscode.Position} position
-	 * @returns {boolean}
-	 */
-	function is_in_class_name(document, position) {
-		const offset = document.offsetAt(position)
-		const text = document.getText().slice(0, offset)
-		const element = last_element(
-			parse_dom(document.fileName, text)
-		)
-		const attribute = element?.attributes[element.attributes.length - 1]
-		if (!attribute) {
-			return false
-		}
-		if (attribute.name != "class" && attribute.name != "className" && attribute.name != "classs") {
-			return false
-		}
-		if (text[attribute.start] == ".") {
-			return false
-		}
-		if (typeof attribute.value == "boolean") {
-			return attribute.end == offset && text[offset - 1] == "="
-		}
-		const value = attribute.value
-		if (value.end != offset) {
-			return false
-		}
-		const closing = value.type == "Script"
-			? "}"
-			: value.subType == "unquoted"
-				? ""
-				: text[value.start]
-		return !closing || value.end - value.start == 1 || text[value.end - 1] != closing
-	}
-	/**
-	 * @param {import("dom-eater").AstNode[]} nodes
-	 * @returns {import("dom-eater").Element | undefined}
-	 */
-	function last_element(nodes) {
-		const node = nodes[nodes.length - 1]
-		if (node?.type == "Script") {
-			return last_element(
-				"elements" in node ? node.elements : []
-			)
-		}
-		if (node?.type != "Element") {
-			return
-		}
-		return last_element(node.children) ?? node
-	}
 	const razor_file_regex = /\.(?:cshtml|razor)$/i
 	const selector = [ "*" ]
 	const trigger_characters = [ "\"", "'", " ", "/", ";" ]
@@ -139,4 +88,55 @@ export default context => {
 			...trigger_characters
 		)
 	)
+	/**
+	 * @param {vscode.TextDocument} document
+	 * @param {vscode.Position} position
+	 * @returns {boolean}
+	 */
+	function is_in_class_name(document, position) {
+		const offset = document.offsetAt(position)
+		const text = document.getText().slice(0, offset)
+		const element = last_element(
+			parse_dom(document.fileName, text)
+		)
+		const attribute = element?.attributes[element.attributes.length - 1]
+		if (!attribute) {
+			return false
+		}
+		if (attribute.name != "class" && attribute.name != "className" && attribute.name != "classs") {
+			return false
+		}
+		if (text[attribute.start] == ".") {
+			return false
+		}
+		if (typeof attribute.value == "boolean") {
+			return attribute.end == offset && text[offset - 1] == "="
+		}
+		const value = attribute.value
+		if (value.end != offset) {
+			return false
+		}
+		const closing = value.type == "Script"
+			? "}"
+			: value.subType == "unquoted"
+				? ""
+				: text[value.start]
+		return !closing || value.end - value.start == 1 || text[value.end - 1] != closing
+	}
+	/**
+	 * @param {import("dom-eater").AstNode[]} nodes
+	 * @returns {import("dom-eater").Element | undefined}
+	 */
+	function last_element(nodes) {
+		const node = nodes[nodes.length - 1]
+		if (node?.type == "Script") {
+			return last_element(
+				"elements" in node ? node.elements : []
+			)
+		}
+		if (node?.type != "Element") {
+			return
+		}
+		return last_element(node.children) ?? node
+	}
 }

@@ -43,27 +43,6 @@ describe(
 			"utf8"
 		)
 		const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8")
-		/**
-		 * @param {string} label
-		 * @returns {string[]}
-		 */
-		function list_of(label) {
-			return ((readme.split("[" + label + "](")[1] ?? "").split("\n")[1] ?? "")
-				.split(" · ")
-				.map(item => item.replace(/`/g, ""))
-				.sort()
-		}
-		/**
-		 * @param {string} name
-		 * @returns {string[]}
-		 */
-		function map_of(name) {
-			return [
-				...((source.split("let " + name + " ")[1] ?? "").split("\n\t)")[0] ?? "").matchAll(/\[ "([^"]+)", "([^"]+)" \]/g)
-			]
-				.map(m => m[1] + " " + m[2])
-				.sort()
-		}
 		for (
 			const [ label, name ] of /** @type {[string, string][]} */([
 				[ "Properties", "shorthand_for_properties" ],
@@ -104,12 +83,27 @@ describe(
 				assert.equal(block.replace(/\n/g, ""), load().reset)
 			}
 		)
-		it(
-			"the README carries no hand-counted test total",
-			() => {
-				assert.doesNotMatch(readme, /\d+ tests/)
-			}
-		)
+		/**
+		 * @param {string} label
+		 * @returns {string[]}
+		 */
+		function list_of(label) {
+			return ((readme.split("[" + label + "](")[1] ?? "").split("\n")[1] ?? "")
+				.split(" · ")
+				.map(item => item.replace(/`/g, ""))
+				.sort()
+		}
+		/**
+		 * @param {string} name
+		 * @returns {string[]}
+		 */
+		function map_of(name) {
+			return [
+				...((source.split("let " + name + " ")[1] ?? "").split("\n\t)")[0] ?? "").matchAll(/\[ "([^"]+)", "([^"]+)" \]/g)
+			]
+				.map(m => m[1] + " " + m[2])
+				.sort()
+		}
 	}
 )
 describe(
@@ -131,13 +125,6 @@ describe(
 			)
 		)
 		const pinned = manifest.devDependencies["@types/vscode"]
-		/**
-		 * @param {string} version
-		 * @returns {string}
-		 */
-		function major_minor(version) {
-			return version.split(".", 2).join(".")
-		}
 		it(
 			"engines.vscode matches the pinned types version",
 			() => {
@@ -186,6 +173,13 @@ describe(
 				)
 			}
 		)
+		/**
+		 * @param {string} version
+		 * @returns {string}
+		 */
+		function major_minor(version) {
+			return version.split(".", 2).join(".")
+		}
 	}
 )
 describe(

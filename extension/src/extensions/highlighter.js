@@ -37,6 +37,28 @@ export default context => {
 			borderWidth: "0 0 3px 0"
 		}
 	)
+	if (active_editor) {
+		trigger_update_decorations()
+	}
+	vscode.window.onDidChangeActiveTextEditor(
+		editor => {
+			active_editor = editor
+			if (editor) {
+				trigger_update_decorations()
+			}
+		},
+		null,
+		context.subscriptions
+	)
+	vscode.workspace.onDidChangeTextDocument(
+		event => {
+			if (active_editor && event.document === active_editor.document) {
+				trigger_update_decorations(true)
+			}
+		},
+		null,
+		context.subscriptions
+	)
 	/**
 	 * @param {string} text
 	 * @param {import("dom-eater").String} str_node
@@ -153,6 +175,7 @@ export default context => {
 			{ offsets, start, text: unescaped }
 		)
 	}
+	/** @returns {void} */
 	function trigger_update_decorations(throttle = false) {
 		if (timeout) {
 			clearTimeout(timeout)
@@ -164,6 +187,7 @@ export default context => {
 			update_decorations()
 		}
 	}
+	/** @returns {Promise<void>} */
 	async function update_decorations() {
 		if (!active_editor) {
 			return
@@ -298,26 +322,4 @@ export default context => {
 		)
 		active_editor.setDecorations(value_decorator, value_array)
 	}
-	if (active_editor) {
-		trigger_update_decorations()
-	}
-	vscode.window.onDidChangeActiveTextEditor(
-		editor => {
-			active_editor = editor
-			if (editor) {
-				trigger_update_decorations()
-			}
-		},
-		null,
-		context.subscriptions
-	)
-	vscode.workspace.onDidChangeTextDocument(
-		event => {
-			if (active_editor && event.document === active_editor.document) {
-				trigger_update_decorations(true)
-			}
-		},
-		null,
-		context.subscriptions
-	)
 }

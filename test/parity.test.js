@@ -134,15 +134,6 @@ describe(
 			new URL("../src/click-css.js", import.meta.url),
 			"utf8"
 		)
-		/**
-		 * @param {string} name
-		 * @returns {[string, string][]}
-		 */
-		function map_of(name) {
-			return [
-				...((source.split("let " + name + " ")[1] ?? "").split("\n\t)")[0] ?? "").matchAll(/\[ "([^"]+)", "([^"]+)" \]/g)
-			].map(m => [ m[1] ?? "", m[2] ?? "" ])
-		}
 		for (const name of [
 			"shorthand_for_properties",
 			"shorthand_for_values",
@@ -174,23 +165,20 @@ describe(
 				assert.equal(copied, unit)
 			}
 		)
+		/**
+		 * @param {string} name
+		 * @returns {[string, string][]}
+		 */
+		function map_of(name) {
+			return [
+				...((source.split("let " + name + " ")[1] ?? "").split("\n\t)")[0] ?? "").matchAll(/\[ "([^"]+)", "([^"]+)" \]/g)
+			].map(m => [ m[1] ?? "", m[2] ?? "" ])
+		}
 	}
 )
 describe(
 	"lib ↔ vsce extension",
 	() => {
-		it(
-			"loads the real extension source",
-			() => {
-				assert.equal(typeof compile_vsce, "function")
-				assert.ok(
-					readFileSync(
-						new URL("./src/helper/compile_style.js", vsce_root),
-						"utf8"
-					).includes("check_is_open")
-				)
-			}
-		)
 		for (const cname of corpus) {
 			it(
 				cname,

@@ -187,6 +187,7 @@ let let_tab_leave_editor = false
 let preview_theme = ""
 let horizontal_split = read_number(STORAGE.splitHorizontal, 48)
 let vertical_split = read_number(STORAGE.splitVertical, 48)
+/** @returns {void} */
 function activate_output(name, focus = false) {
 	const show_preview = name === "preview"
 	preview_view.hidden = !show_preview
@@ -198,12 +199,14 @@ function activate_output(name, focus = false) {
 	preview_tab.tabIndex = show_preview ? 0 : -1
 	css_tab.tabIndex = show_preview ? -1 : 0
 	if (focus) {
-		(show_preview ? preview_tab : css_tab).focus()
+		const active_tab = show_preview ? preview_tab : css_tab
+		active_tab.focus()
 	}
 }
 // A complete document for the preview frame: the user's markup with its own copy of
 // click-css in <head>, a localStorage shim carrying the chosen THEME (the sandbox has no
 // storage of its own), and a reporter that posts the compiled CSS back once the page loads.
+/** @returns {string} */
 function build_preview_document(source, theme, id) {
 	const doc = sanitize_document(source)
 	const shim = doc.createElement("script")
@@ -235,9 +238,11 @@ function build_preview_document(source, theme, id) {
 	doc.head.prepend(shim, runtime, reporter)
 	return "<!doctype html>" + doc.documentElement.outerHTML
 }
+/** @returns {number} */
 function clamp(value, minimum, maximum) {
 	return Math.min(maximum, Math.max(minimum, value))
 }
+/** @returns {Promise<void>} */
 async function copy_source() {
 	try {
 		await write_clipboard(editor.value)
@@ -246,6 +251,7 @@ async function copy_source() {
 		show_toast("Could not access the clipboard.", "error")
 	}
 }
+/** @returns {void} */
 function fail_render(message) {
 	window.clearTimeout(render_timeout)
 	window.clearTimeout(loader_timer)
@@ -253,9 +259,11 @@ function fail_render(message) {
 	set_status("Runtime error", "error")
 	show_toast(message, "error")
 }
+/** @returns {string} */
 function find_matching_example(source) {
 	return Object.keys(EXAMPLES).find(key => EXAMPLES[key] === source) ?? "custom"
 }
+/** @returns {void} */
 function finish_render(css) {
 	window.clearTimeout(render_timeout)
 	window.clearTimeout(loader_timer)
@@ -266,6 +274,7 @@ function finish_render(css) {
 	preview_loader.classList.remove("is-visible")
 	set_status("Live")
 }
+/** @returns {string} */
 function format_bytes(css) {
 	const bytes = new TextEncoder().encode(css).length
 	if (bytes < 1000) {
@@ -273,6 +282,7 @@ function format_bytes(css) {
 	}
 	return `${(bytes / 1000).toFixed(bytes < 10_000 ? 1 : 0)} kB`
 }
+/** @returns {string} */
 function format_css(css) {
 	let formatted = ""
 	let indentation = 0
@@ -281,16 +291,6 @@ function format_css(css) {
 	let css_escaped = false
 	let parentheses = 0
 	let at_line_start = true
-	function append(value) {
-		if (at_line_start && value !== "\n") {
-			formatted += "  ".repeat(indentation)
-			at_line_start = false
-		}
-		formatted += value
-		if (value.endsWith("\n")) {
-			at_line_start = true
-		}
-	}
 	for (const character of css.trim()) {
 		if (quote) {
 			append(character)
@@ -341,7 +341,19 @@ function format_css(css) {
 		}
 	}
 	return formatted.trim() || "/* No Click CSS rules yet. */"
+	/** @returns {void} */
+	function append(value) {
+		if (at_line_start && value !== "\n") {
+			formatted += "  ".repeat(indentation)
+			at_line_start = false
+		}
+		formatted += value
+		if (value.endsWith("\n")) {
+			at_line_start = true
+		}
+	}
 }
+/** @returns {string | null} */
 function get_shared_source() {
 	const parameters = new URLSearchParams(window.location.hash.slice(1))
 	if (!parameters.has("code")) {
@@ -350,6 +362,7 @@ function get_shared_source() {
 	const source = parameters.get("code") ?? ""
 	return source.length <= 100_000 ? source : null
 }
+/** @returns {void} */
 function handle_divider_keydown(event) {
 	const amount = event.shiftKey ? 5 : 1
 	const current = stacked_layout.matches ? vertical_split : horizontal_split
@@ -368,6 +381,7 @@ function handle_divider_keydown(event) {
 	event.preventDefault()
 	set_split(next)
 }
+/** @returns {void} */
 function handle_editor_keydown(event) {
 	if (event.key === "Escape") {
 		let_tab_leave_editor = true
@@ -412,6 +426,7 @@ function handle_editor_keydown(event) {
 	}
 	on_editor_input()
 }
+/** @returns {string} */
 function initial_source() {
 	const shared = get_shared_source()
 	if (shared !== null) {
@@ -419,6 +434,7 @@ function initial_source() {
 	}
 	return read_storage(STORAGE.source) ?? EXAMPLES.profile
 }
+/** @returns {void} */
 function on_editor_input() {
 	write_storage(STORAGE.source, editor.value)
 	example_select.value = "custom"
@@ -433,6 +449,7 @@ function on_editor_input() {
 	}
 	schedule_render()
 }
+/** @returns {number} */
 function read_number(key, fallback) {
 	const stored = read_storage(key)
 	if (stored === null) {
@@ -441,6 +458,7 @@ function read_number(key, fallback) {
 	const value = Number(stored)
 	return Number.isFinite(value) ? clamp(value, 25, 75) : fallback
 }
+/** @returns {string | null} */
 function read_storage(key) {
 	try {
 		return localStorage.getItem(key)
@@ -448,12 +466,14 @@ function read_storage(key) {
 		return null
 	}
 }
+/** @returns {string} */
 function read_theme() {
 	const stored = read_storage(STORAGE.theme) ?? ""
 	return THEMES.includes(stored) ? stored : ""
 }
 // Two frames alternate: the standby frame loads the new document while the active one stays
 // visible, and they swap once the new document reports its CSS. No flash between edits.
+/** @returns {void} */
 function render() {
 	window.clearTimeout(render_timer)
 	window.clearTimeout(render_timeout)
@@ -470,6 +490,7 @@ function render() {
 		RENDER_TIMEOUT
 	)
 }
+/** @returns {void} */
 function resize_from_pointer(event) {
 	if (!is_dragging) {
 		return
@@ -482,6 +503,7 @@ function resize_from_pointer(event) {
 }
 // The preview runs in a sandboxed iframe with an opaque origin, so this is defence in depth:
 // scripts and handlers are removed mostly so a typo cannot lock up the tab.
+/** @returns {Document} */
 function sanitize_document(source) {
 	const doc = new DOMParser().parseFromString(source, "text/html")
 	for (const blocked of doc.querySelectorAll("script, iframe, object, embed, base, meta")) {
@@ -499,11 +521,13 @@ function sanitize_document(source) {
 	}
 	return doc
 }
+/** @returns {void} */
 function schedule_render() {
 	window.clearTimeout(render_timer)
 	set_status("Editing…", "busy")
 	render_timer = window.setTimeout(render, 160)
 }
+/** @returns {void} */
 function set_editor_source(source, example = "custom") {
 	editor.value = source
 	active_example = example === "custom" ? active_example : example
@@ -513,6 +537,7 @@ function set_editor_source(source, example = "custom") {
 	update_cursor_position()
 	render()
 }
+/** @returns {void} */
 function set_split(value, stacked = stacked_layout.matches) {
 	const percentage = clamp(value, 25, 75)
 	if (stacked) {
@@ -526,11 +551,13 @@ function set_split(value, stacked = stacked_layout.matches) {
 	}
 	divider.setAttribute("aria-valuenow", String(Math.round(percentage)))
 }
+/** @returns {void} */
 function set_status(label, mode = "live") {
 	status_label.textContent = label
 	status.classList.toggle("is-busy", mode === "busy")
 	status.classList.toggle("is-error", mode === "error")
 }
+/** @returns {void} */
 function set_theme(theme) {
 	preview_theme = theme
 	write_storage(STORAGE.theme, theme)
@@ -544,6 +571,7 @@ function set_theme(theme) {
 		icon.toggleAttribute("hidden", icon.dataset.theme !== theme)
 	}
 }
+/** @returns {Promise<void>} */
 async function share_source() {
 	if (editor.value.length > 100_000) {
 		show_toast(
@@ -562,6 +590,7 @@ async function share_source() {
 		show_toast("Could not copy the share link.", "error")
 	}
 }
+/** @returns {void} */
 function show_toast(message, mode = "default") {
 	window.clearTimeout(toast_timer)
 	toast.textContent = message
@@ -569,6 +598,7 @@ function show_toast(message, mode = "default") {
 	toast.classList.add("is-visible")
 	toast_timer = window.setTimeout(() => toast.classList.remove("is-visible"), 2200)
 }
+/** @returns {void} */
 function stop_dragging(event) {
 	if (!is_dragging) {
 		return
@@ -579,11 +609,13 @@ function stop_dragging(event) {
 		divider.releasePointerCapture(event.pointerId)
 	}
 }
+/** @returns {void} */
 function update_cursor_position() {
 	const before_cursor = editor.value.slice(0, editor.selectionStart)
 	const lines = before_cursor.split("\n")
 	cursor_position.textContent = `Ln ${lines.length}, Col ${lines.at(-1).length + 1}`
 }
+/** @returns {void} */
 function update_divider_orientation() {
 	divider.setAttribute(
 		"aria-orientation",
@@ -593,15 +625,18 @@ function update_divider_orientation() {
 		stacked_layout.matches ? vertical_split : horizontal_split
 	)
 }
+/** @returns {void} */
 function update_generated_css(css) {
 	css_output.textContent = format_css(css)
 	css_size.textContent = format_bytes(css)
 }
+/** @returns {void} */
 function update_line_numbers() {
 	const count = editor.value.split("\n").length
 	line_numbers.textContent = Array.from({ length: count }, (_, index) => index + 1).join("\n")
 	line_numbers.scrollTop = editor.scrollTop
 }
+/** @returns {Promise<void>} */
 async function write_clipboard(text) {
 	if (navigator.clipboard?.writeText && window.isSecureContext) {
 		await navigator.clipboard.writeText(text)
@@ -620,6 +655,7 @@ async function write_clipboard(text) {
 		throw new Error("Clipboard is unavailable")
 	}
 }
+/** @returns {void} */
 function write_storage(key, value) {
 	try {
 		localStorage.setItem(key, value)

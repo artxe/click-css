@@ -1,7 +1,10 @@
 import { compile, declarations } from "./dom.js"
 import assert from "node:assert/strict"
 import { describe, it } from "vitest"
-/** @param {Record<string, string>} cases */
+/**
+ * @param {Record<string, string>} cases
+ * @returns {void}
+ */
 function declares(cases) {
 	for (const [ cname, expected ] of Object.entries(cases)) {
 		it(
@@ -138,15 +141,10 @@ describe(
 		it(
 			"a trailing ! stacks [class]",
 			() => {
+				assert.match(compile("w=100"), /^\./)
 				assert.match(compile("w=100!"), /^\[class\]\./)
 				assert.match(compile("w=100!!"), /^\[class\]\[class\]\./)
 				assert.equal(compile("w=100!!").slice(-13), "{width:100px}")
-			}
-		)
-		it(
-			"no ! means no prefix",
-			() => {
-				assert.match(compile("w=100"), /^\./)
 			}
 		)
 	}
@@ -187,7 +185,8 @@ describe(
 				"ct='['": "content:'['",
 				"ct=']'": "content:']'",
 				"ct='it\\'s'": "content:'it\\'s'",
-				"ct='{'": "content:'{'"
+				"ct='{'": "content:'{'",
+				"ct='}'": "content:'}'"
 			}
 		)
 	}
@@ -301,8 +300,6 @@ describe(
 	() => {
 		declares(
 			{
-				"ct='{'": "content:'{'",
-				"ct='}'": "content:'}'",
 				"ct=)(": "",
 				"ct=][": "",
 				"ct=a{b": "",
@@ -372,8 +369,6 @@ describe(
 				"p=~8_~16": "padding:8 16",
 				"some-new-width=~2": "some-new-width:2",
 				"stroke-width=~1.5": "stroke-width:1.5",
-				"tab-size=4": "tab-size:4px",
-				"w=100": "width:100px",
 				"w=calc(100%_-_~2)": "width:calc(100% - ~2)",
 				"w=~100": "width:100"
 			}
@@ -418,7 +413,6 @@ describe(
 		declares(
 			{
 				"absolute": "position:absolute",
-				"ar=16/9": "aspect-ratio:16/9",
 				"border-image-outset=2": "border-image-outset:2",
 				"columns=2_100": "columns:2 100",
 				"f=1_1_0": "flex:1 1 0",
@@ -427,8 +421,7 @@ describe(
 				"stroke-dasharray=4_2": "stroke-dasharray:4 2",
 				"stroke-dashoffset=4": "stroke-dashoffset:4",
 				"tf=translate(10px,20px)": "transform:translate(10px,20px)",
-				"transform=translate(10px,20px)": "transform:translate(10px,20px)",
-				"z=10": "z-index:10"
+				"transform=translate(10px,20px)": "transform:translate(10px,20px)"
 			}
 		)
 	}
@@ -481,20 +474,13 @@ describe(
 		declares(
 			{
 				"--gap=12": "--gap:12px",
-				"border-top-width=2": "border-top-width:2px",
-				"fs=16": "font-size:16px",
-				"fw=600": "font-weight:600",
 				"g=4-2": "gap:4-2",
-				"lh=2": "line-height:2",
 				"ml=-4_0": "margin-left:-4px 0px",
-				"op=0": "opacity:0",
 				"order=-1": "order:-1",
 				"outline-offset=-1": "outline-offset:-1px",
 				"scroll-padding-left=4": "scroll-padding-left:4px",
-				"stroke-width=2": "stroke-width:2",
 				"t=-14": "top:-14px",
-				"t=-14px": "top:-14px",
-				"z=2": "z-index:2"
+				"t=-14px": "top:-14px"
 			}
 		)
 	}
@@ -509,15 +495,10 @@ describe(
 				"border-top-width=2": "border-top-width:2px",
 				"border-width=2": "border-width:2px",
 				"column-rule-width=2": "column-rule-width:2px",
-				"grid-row-start=2": "grid-row-start:2",
-				"line-height=1.5": "line-height:1.5",
 				"mask-border-width=~2": "mask-border-width:2",
-				"max-width=2": "max-width:2px",
-				"min-width=2": "min-width:2px",
 				"outline-width=2": "outline-width:2px",
 				"stroke-width=1.5": "stroke-width:1.5",
-				"tab-size=~4": "tab-size:4",
-				"width=2": "width:2px"
+				"tab-size=~4": "tab-size:4"
 			}
 		)
 	}

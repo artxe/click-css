@@ -5,8 +5,8 @@ export default [
 	{
 		ignores: [
 			".claude/settings*.json",
+			".claude/scripts/**",
 			".tmp/**",
-			"coverage/**",
 			"docs/min.js",
 			"extension/out/**"
 		]
